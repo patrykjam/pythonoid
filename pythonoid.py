@@ -30,6 +30,9 @@ def main():
             if event.type == QUIT:
                 pygame.quit()
             elif event.type == KEYDOWN:
+                if event.key == K_UP:
+                    for p in player_screens:
+                        p.multiply_balls()
                 for p in player_screens:
                     if event.key == p.move_left_key:
                         p.paddle.move_left()
@@ -41,15 +44,15 @@ def main():
                         p.paddle.stop()
 
         for i, p in enumerate(player_screens):
-            screen.blit(p.subsurface, (i * width / 2, 0))
+            screen.blit(p.subsurface, (i * width / PLAYERS, 0))
             p.subsurface.blit(background, (0, 0))
             p.update()
             p.blit()
+            pygame.draw.line(p.subsurface, (0, 0, 0), (width / PLAYERS, 0), (width / PLAYERS, height), 5)
 
-        if PLAYERS != 1:
-            pygame.draw.line(player_screens[0].subsurface, (0, 0, 0), (width / 2, 0), (width / 2, height), 5)
         pygame.display.flip()
 
 
 if __name__ == '__main__':
     main()
+

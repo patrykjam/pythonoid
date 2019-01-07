@@ -1,4 +1,5 @@
 import math
+import random
 
 import pygame
 
@@ -17,7 +18,10 @@ class Ball(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image, self.rect = load_png(BALL_IMG)
         self.area = area
-        self.vector = vector
+        if vector:
+            self.vector = vector
+        else:
+            self.vector = random.uniform(0.25, 2 * math.pi - 0.25), 10
         self.collided = False
 
     def update(self, paddle_rect):
