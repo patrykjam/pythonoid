@@ -19,7 +19,21 @@ background.fill((255, 255, 255))
 
 paddle = Paddle()
 screen.blit(background, (0, 0))
-ball = Ball((random.uniform(0, 2 * math.pi), 10))
+
+balls = [Ball((random.uniform(0, 2 * math.pi), 10))]
+balls[0].rect.move_ip([random.uniform(0, 0.5 * WIDTH_RES), random.uniform(0, 0.5 * HEIGHT_RES)])
+
+
+def multplyballs(balls):
+    updballs = []
+    for ball in balls:
+        updballs.append(ball)
+        tempballs = [ball, Ball([ball.vector[0] + 0.25 * math.pi, ball.vector[1]]), Ball([ball.vector[0] - 0.25 * math.pi, ball.vector[1]])]
+        tempballs[1].rect = ball.rect.copy()
+        tempballs[2].rect = ball.rect.copy()
+        updballs.extend(tempballs)
+    return updballs
+
 
 pygame.display.flip()
 
@@ -36,15 +50,20 @@ while 1:
                 paddle.move_left()
             if event.key == K_RIGHT or event.key == K_d:
                 paddle.move_right()
+            if event.key == K_UP:
+               balls = multplyballs(balls)
                 # set
         elif event.type == KEYUP and (
                 event.key == K_LEFT or event.key == K_RIGHT or event.key == K_a or event.key == K_d):
             paddle.movepos = [0, 0]
             paddle.state = "still"
     paddle.update()
-    ball.update(paddle.rect)
+    for ball in balls:
+        ball.update(paddle.rect)
 
     screen.blit(background, (0, 0))
     screen.blit(paddle.image, paddle.rect)
-    screen.blit(ball.image, ball.rect)
+    for ball in balls:
+        screen.blit(ball.image, ball.rect)
     pygame.display.flip()
+    print(len(balls))
