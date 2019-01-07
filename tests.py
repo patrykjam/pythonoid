@@ -23,7 +23,7 @@ class TestPythonoid(unittest.TestCase):
         expected_balls = 1
         expected_multiplication = 3
 
-        for i in range(100000):
+        for i in range(100):
             expected_balls *= expected_multiplication
             player_screen.multiply_balls()
             self.assertEqual(expected_balls, len(player_screen.balls))
