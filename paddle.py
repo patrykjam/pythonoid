@@ -11,11 +11,10 @@ class Paddle(pygame.sprite.Sprite):
     Functions: reinit, update, move_left, move_right
     """
 
-    def __init__(self):
+    def __init__(self, area):
         pygame.sprite.Sprite.__init__(self)
         self.image, self.rect = load_png(PADDLE_IMG)
-        screen = pygame.display.get_surface()
-        self.area = screen.get_rect()
+        self.area = area
         self.speed = 10
         self.movepos = [0, 0]
         self.state = "still"
@@ -39,3 +38,7 @@ class Paddle(pygame.sprite.Sprite):
     def move_right(self):
         self.movepos[0] = self.movepos[0] + self.speed
         self.state = "moveright"
+
+    def stop(self):
+        self.movepos = [0, 0]
+        self.state = "still"
