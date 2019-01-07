@@ -1,4 +1,5 @@
 import math
+import random
 
 import pygame
 
@@ -13,12 +14,14 @@ class Ball(pygame.sprite.Sprite):
     Functions: reinit, update
     """
 
-    def __init__(self, vector):
+    def __init__(self, area, vector):
         pygame.sprite.Sprite.__init__(self)
         self.image, self.rect = load_png(BALL_IMG)
-        screen = pygame.display.get_surface()
-        self.area = screen.get_rect()
-        self.vector = vector
+        self.area = area
+        if vector:
+            self.vector = vector
+        else:
+            self.vector = random.uniform(0.25, 2 * math.pi - 0.25), 10
         self.collided = False
 
     def update(self, paddle_rect):
