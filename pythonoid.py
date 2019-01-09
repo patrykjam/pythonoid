@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import *
 
 from player_screen import PlayerScreen
-from settings import WIDTH_RES, HEIGHT_RES, PLAYERS, MAX_FPS, PLAYER_CONTROLS
+from settings import WIDTH_RES, HEIGHT_RES, PLAYERS, MAX_FPS, PLAYER_CONTROLS, BACKGROUND_COLOR
 
 
 def main():
@@ -16,10 +16,6 @@ def main():
     player_screens = \
         [PlayerScreen(canvas.subsurface(pygame.Rect(i * width / PLAYERS, 0, width / PLAYERS, height)), controls)
          for i, controls in zip(range(PLAYERS), PLAYER_CONTROLS)]
-
-    background = pygame.Surface(player_screens[0].subsurface.get_size())
-    background = background.convert(canvas)
-    background.fill((255, 255, 255))
 
     clock = pygame.time.Clock()
 
@@ -45,7 +41,7 @@ def main():
 
         for i, p in enumerate(player_screens):
             screen.blit(p.subsurface, (i * width / PLAYERS, 0))
-            p.subsurface.blit(background, (0, 0))
+            p.subsurface.fill(pygame.Color(BACKGROUND_COLOR))
             p.update()
             p.blit()
             pygame.draw.line(p.subsurface, (0, 0, 0), (width / PLAYERS, 0), (width / PLAYERS, height), 5)
