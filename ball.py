@@ -23,8 +23,9 @@ class Ball(pygame.sprite.Sprite):
         else:
             self.vector = random.uniform(0.25, 2 * math.pi - 0.25), 10
         self.collided = False
+        self.hit = False
 
-    def update(self, paddle_rect):
+    def update(self):
         newpos = self.calcnewpos(self.rect, self.vector)
         self.rect = newpos
         (angle, z) = self.vector
@@ -40,13 +41,10 @@ class Ball(pygame.sprite.Sprite):
             elif tl and bl:
                 angle += math.pi
         else:
-            # Deflate the rectangles so you can't catch a ball behind the paddle
-            paddle_rect.inflate(-3, -3)
-
-            if self.rect.colliderect(paddle_rect) and not self.collided:
+            if self.hit and not self.collided:
                 angle *= -1
                 self.collided = True
-            elif self.collided:
+            elif not self.hit and self.collided:
                 self.collided = False
         self.vector = (angle, z)
 
