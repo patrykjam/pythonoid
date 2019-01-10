@@ -12,7 +12,7 @@ class Paddle(pygame.sprite.Sprite):
     """
 
     def __init__(self, area):
-        pygame.sprite.Sprite.__init__(self)
+        super().__init__()
         self.image, self.rect = load_png(PADDLE_IMG)
         self.area = area
         self.speed = 10
