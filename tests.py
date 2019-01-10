@@ -24,8 +24,9 @@ class TestPythonoid(unittest.TestCase):
         player_screen = PlayerScreen(pygame.Surface((0, 0)), (None, None))
         expected_balls = 1
         expected_multiplication = 3
+        tested_multiplication_count = 8
 
-        for i in range(10):
+        for i in range(tested_multiplication_count):
             expected_balls *= expected_multiplication
             player_screen.multiply_balls()
             self.assertEqual(expected_balls, len(player_screen.balls))
