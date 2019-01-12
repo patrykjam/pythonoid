@@ -22,8 +22,7 @@ class Ball(pygame.sprite.Sprite):
             self.vector = vector
         else:
             self.vector = random.uniform(0.25, 2 * math.pi - 0.25), 10
-        self.collided = False
-        self.hit = False
+        self.collided = self.hit = self.tl = self.tr = self.bl = self.br = False
 
     def update(self):
         newpos = self.calcnewpos(self.rect, self.vector)
@@ -43,6 +42,10 @@ class Ball(pygame.sprite.Sprite):
         else:
             if self.hit and not self.collided:
                 angle *= -1
+                if self.tr and self.br:
+                    angle -= math.pi
+                elif self.tl and self.bl:
+                    angle += math.pi
                 self.collided = True
             elif not self.hit and self.collided:
                 self.collided = False

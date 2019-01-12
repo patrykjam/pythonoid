@@ -26,7 +26,7 @@ class PlayerScreen(object):
 
     def update(self):
         for ball in self.balls:
-            ball.hit = self._check_if_collided(ball, self.paddle.rect, *self.blocks)
+            ball.hit = self._check_collision_corners(ball, self.paddle, *self.blocks)
             if ball.hit:
                 for block in self.blocks:
                     if ball.rect.colliderect(block.rect) and not ball.collided:
@@ -55,5 +55,12 @@ class PlayerScreen(object):
             upd_balls.extend(temp_balls)
         self.balls = upd_balls
 
-    def _check_if_collided(self, ball, *rects):
-        return any(ball.rect.colliderect(c) for c in rects)
+    def _check_collision_corners(self, ball, *areas):
+        for a in areas:
+            if ball.rect.colliderect(a.rect):
+                ball.tl = a.rect.collidepoint(ball.rect.topleft)
+                ball.tl = a.rect.collidepoint(ball.rect.topright)
+                ball.tl = a.rect.collidepoint(ball.rect.bottomleft)
+                ball.tl = a.rect.collidepoint(ball.rect.bottomright)
+                return True
+        return None
