@@ -32,7 +32,7 @@ class TestPythonoid(unittest.TestCase):
             player_screen.multiply_balls()
             self.assertEqual(expected_balls, len(player_screen.balls))
 
-    def test_player_screen_mutliply_balls_random_initial(self):
+    def test_player_screen_multiply_balls_random_initial(self):
         pygame.display.set_mode((0, 0))
         player_screen = PlayerScreen(pygame.Surface((0, 0)), (None, None))
         tested_initial_number_of_balls_count = 6
