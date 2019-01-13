@@ -1,7 +1,8 @@
 import math
 import random
-
+import soundmixer as soundmixer
 import pygame
+from settings import *
 
 from load_utils import load_png
 from settings import BALL_IMG
@@ -18,6 +19,7 @@ class Ball(pygame.sprite.Sprite):
         super().__init__()
         self.image, self.rect = load_png(BALL_IMG)
         self.area = area
+        self.wallhitsound = pygame.mixer.Sound(PADDLE_HIT)
         if vector:
             self.vector = vector
         else:
@@ -39,6 +41,7 @@ class Ball(pygame.sprite.Sprite):
                 angle -= math.pi
             elif tl and bl:
                 angle += math.pi
+            soundmixer.solochanneleffect(self.wallhitsound)
         else:
             if self.hit and not self.collided:
                 angle *= -1

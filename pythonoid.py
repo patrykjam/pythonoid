@@ -1,12 +1,13 @@
 import pygame
-
+from pygame.locals import *
 from settings import *
-
+import soundmixer as soundmixer
 from player_screen import PlayerScreen
 from settings import WIDTH_RES, HEIGHT_RES, PLAYERS, MAX_FPS, PLAYER_CONTROLS, BACKGROUND_COLOR
 
 
 def main():
+    soundmixer.init_mixer()
     pygame.init()
     width, height = WIDTH_RES * PLAYERS, HEIGHT_RES
     screen_res = (width, height)
@@ -19,9 +20,7 @@ def main():
          for i, controls in zip(range(PLAYERS), PLAYER_CONTROLS)]
 
     clock = pygame.time.Clock()
-    pygame.mixer.Channel(0).play(pygame.mixer.Sound(SOUNDTRACK))
-    pygame.mixer.Channel(0).set_volume(0.3)
-
+    soundmixer.setmusic()
 
     # Event loop
     while 1:
