@@ -1,5 +1,6 @@
 import pygame
-from pygame.locals import *
+
+from settings import *
 
 from player_screen import PlayerScreen
 from settings import WIDTH_RES, HEIGHT_RES, PLAYERS, MAX_FPS, PLAYER_CONTROLS, BACKGROUND_COLOR
@@ -18,6 +19,9 @@ def main():
          for i, controls in zip(range(PLAYERS), PLAYER_CONTROLS)]
 
     clock = pygame.time.Clock()
+    pygame.mixer.Channel(0).play(pygame.mixer.Sound(SOUNDTRACK))
+    pygame.mixer.Channel(0).set_volume(0.3)
+
 
     # Event loop
     while 1:
@@ -29,6 +33,9 @@ def main():
                 if event.key == K_UP:
                     for p in player_screens:
                         p.multiply_balls()
+                if event.key == K_DOWN:
+                    pygame.mixer.Channel(1).stop()
+                    pygame.mixer.Channel(1).play(pygame.mixer.Sound(PADDLE_HIT))
                 for p in player_screens:
                     if event.key == p.move_left_key:
                         p.paddle.move_left()
