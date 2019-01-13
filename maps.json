@@ -1,0 +1,67 @@
+{
+  blocks: {
+    basic: [
+      40,
+      20,
+      1
+    ],
+    advanced: [
+      40,
+      20,
+      3
+    ],
+    hard: [
+      40,
+      20,
+      5
+    ],
+    imposibble: [
+      40,
+      20,
+      10
+    ]
+  },
+  maps: [
+    {
+      title: "noob level",
+      blocks: [
+        {
+          kind: "basic",
+          x: 10,
+          y: 10
+        },
+        {
+          kind: "basic",
+          x: 80,
+          y: 10
+        },
+        {
+          kind: "basic",
+          x: 150,
+          y: 10
+        }
+      ]
+      Ł
+    },
+    {
+      title: "2nd level",
+      blocks: [
+        {
+          kind: "basic",
+          x: 10,
+          y: 10
+        },
+        {
+          kind: "advanced",
+          x: 80,
+          y: 70
+        },
+        {
+          kind: "hard",
+          x: 150,
+          y: 130
+        }
+      ]
+    }
+  ]
+}
