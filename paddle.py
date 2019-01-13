@@ -1,7 +1,7 @@
 import pygame
 
 from load_utils import load_png
-from settings import PADDLE_IMG
+from settings import PADDLE_IMG, MAX_FPS
 
 
 class Paddle(pygame.sprite.Sprite):
@@ -15,7 +15,7 @@ class Paddle(pygame.sprite.Sprite):
         super().__init__()
         self.image, self.rect = load_png(PADDLE_IMG)
         self.area = area
-        self.speed = 10
+        self.speed = 600/MAX_FPS
         self.movepos = [0, 0]
         self.state = "still"
         self.reinit()

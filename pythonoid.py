@@ -32,14 +32,13 @@ def main():
                 if event.key == K_UP:
                     for p in player_screens:
                         p.multiply_balls()
-                if event.key == K_DOWN:
-                    pygame.mixer.Channel(1).stop()
-                    pygame.mixer.Channel(1).play(pygame.mixer.Sound(PADDLE_HIT))
+
                 for p in player_screens:
                     if event.key == p.move_left_key:
                         p.paddle.move_left()
                     if event.key == p.move_right_key:
                         p.paddle.move_right()
+
             elif event.type == KEYUP:
                 for p in player_screens:
                     if event.key in (p.move_left_key, p.move_right_key):
@@ -48,7 +47,8 @@ def main():
         for i, p in enumerate(player_screens):
             screen.blit(p.subsurface, (i * width / PLAYERS, 0))
             p.subsurface.fill(pygame.Color(BACKGROUND_COLOR))
-            p.update()
+            if p.blocks and p.balls:
+                p.update()
             p.blit()
             pygame.draw.line(p.subsurface, (0, 0, 0), (width / PLAYERS, 0), (width / PLAYERS, height), 5)
 

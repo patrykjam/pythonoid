@@ -2,10 +2,8 @@ import math
 import random
 import soundmixer as soundmixer
 import pygame
-from settings import *
-
 from load_utils import load_png
-from settings import BALL_IMG
+from settings import BALL_IMG, BALL_LOSS, PADDLE_HIT, MAX_FPS
 
 
 class Ball(pygame.sprite.Sprite):
@@ -19,10 +17,11 @@ class Ball(pygame.sprite.Sprite):
         super().__init__()
         self.image, self.rect = load_png(BALL_IMG)
         self.area = area
+        self.active = True
         if vector:
             self.vector = vector
         else:
-            self.vector = random.uniform(0.25, 2 * math.pi - 0.25), 10
+            self.vector = random.uniform(0.25, math.pi - 0.25), 1200/MAX_FPS
         self.collided = self.hit = self.tl = self.tr = self.bl = self.br = False
 
     def update(self):
@@ -35,6 +34,11 @@ class Ball(pygame.sprite.Sprite):
             tr = not self.area.collidepoint(newpos.topright)
             bl = not self.area.collidepoint(newpos.bottomleft)
             br = not self.area.collidepoint(newpos.bottomright)
+
+            if br and bl:
+                self.active = False
+                soundmixer.solochanneleffect(BALL_LOSS)
+                return
             angle *= -1
             if tr and br:
                 angle -= math.pi
@@ -44,6 +48,8 @@ class Ball(pygame.sprite.Sprite):
         else:
             if self.hit and not self.collided:
                 angle *= -1
+                soundmixer.solochanneleffect(PADDLE_HIT)
+                self.area.x
                 if self.tr and self.br:
                     angle -= math.pi
                 elif self.tl and self.bl:
