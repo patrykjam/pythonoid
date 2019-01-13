@@ -2,6 +2,7 @@ import unittest
 
 import pygame
 
+import soundmixer
 from ball import Ball
 from block import Block
 from load_utils import load_png
@@ -15,12 +16,14 @@ class TestPythonoid(unittest.TestCase):
         self.assertRaises(SystemExit, load_png, 'nonexistent_image.ping')
 
     def test_initial_player_screen_balls(self):
+        soundmixer.init_mixer()
         pygame.display.set_mode((0, 0))
         player_screen = PlayerScreen(pygame.Surface((0, 0)), (None, None))
 
         self.assertEqual(1, len(player_screen.balls))
 
     def test_player_screen_multiply_balls(self):
+        soundmixer.init_mixer()
         pygame.display.set_mode((0, 0))
         player_screen = PlayerScreen(pygame.Surface((0, 0)), (None, None))
         expected_balls = 1
@@ -33,6 +36,7 @@ class TestPythonoid(unittest.TestCase):
             self.assertEqual(expected_balls, len(player_screen.balls))
 
     def test_player_screen_multiply_balls_random_initial(self):
+        soundmixer.init_mixer()
         pygame.display.set_mode((0, 0))
         player_screen = PlayerScreen(pygame.Surface((0, 0)), (None, None))
         tested_initial_number_of_balls_count = 6
