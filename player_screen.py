@@ -40,6 +40,10 @@ class PlayerScreen(object):
 
     def update(self):
         for ball in self.balls:
+            if self._check_collision_corners(ball, self.paddle):
+                ball.custom_angle = self.paddle.get_bounce_angle(ball.rect.centerx)
+                ball.update()
+                continue
             ball.hit = self._check_collision_corners(ball, self.paddle, *self.blocks)
             if ball.hit:
                 for block in self.blocks:

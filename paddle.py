@@ -1,3 +1,4 @@
+import numpy as np
 import pygame
 
 from load_utils import load_png
@@ -18,6 +19,8 @@ class Paddle(pygame.sprite.Sprite):
         self.speed = 600/MAX_FPS
         self.movepos = [0, 0]
         self.state = "still"
+        self.bounce_angle_range = (3.4, 6.)
+        self.bounce_angle_array = np.linspace(*self.bounce_angle_range, self.rect.width)
         self.reinit()
 
     def reinit(self):
@@ -42,3 +45,11 @@ class Paddle(pygame.sprite.Sprite):
     def stop(self):
         self.movepos = [0, 0]
         self.state = "still"
+
+    def get_bounce_angle(self, ball_x):
+        idx = ball_x - self.rect.left
+        if idx < 0:
+            idx = 0
+        if idx > self.rect.width:
+            idx = self.rect.width - 1
+        return self.bounce_angle_array[idx]
