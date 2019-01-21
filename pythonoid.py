@@ -1,6 +1,6 @@
 import pygame
 from pygame.locals import *
-from settings import *
+
 import soundmixer as soundmixer
 from player_screen import PlayerScreen
 from settings import WIDTH_RES, HEIGHT_RES, PLAYERS, MAX_FPS, PLAYER_CONTROLS, BACKGROUND_COLOR
