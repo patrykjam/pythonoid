@@ -4,7 +4,7 @@ from pygame.locals import *
 import soundmixer as soundmixer
 from player_screen import PlayerScreen
 from settings import WIDTH_RES, HEIGHT_RES, PLAYERS, MAX_FPS, PLAYER_CONTROLS, BACKGROUND_COLOR
-
+from text_surface import TextSurface
 
 def main():
     soundmixer.init_mixer()
@@ -15,16 +15,21 @@ def main():
     pygame.display.set_caption('Pythonoid')
 
     canvas = pygame.Surface(screen_res)
+    textsurface = TextSurface()
     player_screens = \
         [PlayerScreen(canvas.subsurface(pygame.Rect(i * width / PLAYERS, 0, width / PLAYERS, height)), controls)
          for i, controls in zip(range(PLAYERS), PLAYER_CONTROLS)]
 
     clock = pygame.time.Clock()
+    time = 0
     soundmixer.setmusic()
 
     # Event loop
     while 1:
         clock.tick(MAX_FPS)
+        time = time + 1
+        canvas.blit(textsurface.get_text_surface('Time: {}'.format(round(time/MAX_FPS, 1),)), (200, 0))
+
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()

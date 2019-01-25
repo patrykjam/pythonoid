@@ -5,7 +5,8 @@ import pygame
 
 import soundmixer as soundmixer
 from load_utils import load_png
-from settings import BALL_IMG, BALL_LOSS, PADDLE_HIT, MAX_FPS
+from settings import BALL_IMG, BALL_LOSS, PADDLE_HIT, MAX_FPS, BASE_SPEED
+
 
 
 class Ball(pygame.sprite.Sprite):
@@ -23,7 +24,7 @@ class Ball(pygame.sprite.Sprite):
         if vector:
             self.vector = vector
         else:
-            self.vector = random.uniform(0.25, math.pi - 0.25), 1200/MAX_FPS
+            self.vector = random.uniform(0.25, math.pi - 0.25), BASE_SPEED/MAX_FPS
         self.custom_angle = self.collided = self.hit = self.tl = self.tr = self.bl = self.br = False
 
     def update(self):
@@ -67,5 +68,5 @@ class Ball(pygame.sprite.Sprite):
 
     def calcnewpos(self, rect, vector):
         (angle, z) = vector
-        (dx, dy) = (z * math.cos(angle), z * math.sin(angle))
+        (dx, dy) = (round(z * math.cos(angle),0),round(z * math.sin(angle),0))
         return rect.move(dx, dy)

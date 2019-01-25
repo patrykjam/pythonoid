@@ -3,8 +3,9 @@ Settings constants
 """
 from pygame.constants import K_a, K_d, K_LEFT, K_RIGHT
 
+BASE_SPEED = 600
 PLAYERS = 1
-MAX_FPS = 480
+MAX_FPS = 60
 HEIGHT_RES = 700
 WIDTH_RES = 600
 IMAGES_DIR = "images/"
