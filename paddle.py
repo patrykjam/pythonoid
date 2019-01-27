@@ -12,6 +12,8 @@ class Paddle(pygame.sprite.Sprite):
     Functions: reinit, update, move_left, move_right
     """
 
+    MAX_EXPAND = 2
+
     def __init__(self, area):
         super().__init__()
         self.image, self.rect = load_png(PADDLE_IMG)
@@ -20,11 +22,14 @@ class Paddle(pygame.sprite.Sprite):
         self.movepos = [0, 0]
         self.bounce_angle_range = (3.4, 6.)
         self.bounce_angle_array = np.linspace(*self.bounce_angle_range, self.rect.width)
+        self.resize_state = 0
         self.reinit()
 
     def reinit(self):
+        self.image, self.rect = load_png(PADDLE_IMG)
         self.movepos = [0, 0]
         self.rect.midbottom = self.area.midbottom
+        self.resize_state = 0
 
     def update(self):
         newpos = self.rect.move(self.movepos)
@@ -50,8 +55,20 @@ class Paddle(pygame.sprite.Sprite):
         return self.bounce_angle_array[idx]
 
     def shrink(self):
-        self.image = pygame.transform.scale(self.image, (int(self.image.get_width() // 1.5), self.image.get_height()))
+        if self.resize_state != -self.MAX_EXPAND:
+            self._resize_width_by(0.8)
+            self.resize_state -= 1
+
+    def expand(self):
+        if self.resize_state != self.MAX_EXPAND:
+            self._resize_width_by(1.2)
+            self.resize_state += 1
+
+    def _resize_width_by(self, by):
+        self.image = pygame.transform.scale(self.image, (round(self.image.get_width() * by), self.image.get_height()))
         old_pos = self.rect.topleft
         self.rect = self.image.get_rect()
         self.rect.topleft = old_pos
         self.bounce_angle_array = np.linspace(*self.bounce_angle_range, self.rect.width)
+        if not self.area.contains(self.rect):
+            self.rect.midbottom = self.area.midbottom
