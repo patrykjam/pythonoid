@@ -13,6 +13,7 @@ class Paddle(pygame.sprite.Sprite):
     """
 
     MAX_RESIZE_TIMES = 2
+    MAX_SPEED_CHANGE = 1
 
     def __init__(self, area):
         super().__init__()
@@ -22,14 +23,14 @@ class Paddle(pygame.sprite.Sprite):
         self.movepos = [0, 0]
         self.bounce_angle_range = (3.4, 6.)
         self.bounce_angle_array = None
-        self.resize_state = 0
+        self.resize_state = self.speed_state = 0
         self.reinit()
 
     def reinit(self):
         self.image, self.rect = load_png(PADDLE_IMG)
         self.movepos = [0, 0]
         self.rect.midbottom = self.area.midbottom
-        self.resize_state = 0
+        self.resize_state = self.speed_state = 0
         self.bounce_angle_array = np.linspace(*self.bounce_angle_range, self.rect.width)
 
     def update(self):
@@ -73,3 +74,13 @@ class Paddle(pygame.sprite.Sprite):
         self.bounce_angle_array = np.linspace(*self.bounce_angle_range, self.rect.width)
         if not self.area.contains(self.rect):
             self.rect.midbottom = self.area.midbottom
+
+    def slow_down(self):
+        if self.resize_state != -self.MAX_SPEED_CHANGE:
+            self.speed *= 0.8
+            self.speed_state -= 1
+
+    def speed_up(self):
+        if self.resize_state != self.MAX_SPEED_CHANGE:
+            self.speed *= 1.2
+            self.speed_state += 1
