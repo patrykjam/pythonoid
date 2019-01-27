@@ -1,0 +1,2 @@
+class Bonus(object):
+    pass

@@ -16,15 +16,13 @@ class Paddle(pygame.sprite.Sprite):
         super().__init__()
         self.image, self.rect = load_png(PADDLE_IMG)
         self.area = area
-        self.speed = 600/MAX_FPS
+        self.speed = 300 / MAX_FPS
         self.movepos = [0, 0]
-        self.state = "still"
         self.bounce_angle_range = (3.4, 6.)
         self.bounce_angle_array = np.linspace(*self.bounce_angle_range, self.rect.width)
         self.reinit()
 
     def reinit(self):
-        self.state = "still"
         self.movepos = [0, 0]
         self.rect.midbottom = self.area.midbottom
 
@@ -36,15 +34,12 @@ class Paddle(pygame.sprite.Sprite):
 
     def move_left(self):
         self.movepos[0] = self.movepos[0] - self.speed
-        self.state = "moveleft"
 
     def move_right(self):
         self.movepos[0] = self.movepos[0] + self.speed
-        self.state = "moveright"
 
     def stop(self):
         self.movepos = [0, 0]
-        self.state = "still"
 
     def get_bounce_angle(self, ball_x):
         idx = ball_x - self.rect.left
@@ -53,3 +48,10 @@ class Paddle(pygame.sprite.Sprite):
         if idx > self.rect.width:
             idx = self.rect.width - 1
         return self.bounce_angle_array[idx]
+
+    def shrink(self):
+        self.image = pygame.transform.scale(self.image, (int(self.image.get_width() // 1.5), self.image.get_height()))
+        old_pos = self.rect.topleft
+        self.rect = self.image.get_rect()
+        self.rect.topleft = old_pos
+        self.bounce_angle_array = np.linspace(*self.bounce_angle_range, self.rect.width)
