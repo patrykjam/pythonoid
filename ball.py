@@ -8,7 +8,6 @@ from load_utils import load_png
 from settings import BALL_IMG, BALL_LOSS, PADDLE_HIT, MAX_FPS, BASE_SPEED
 
 
-
 class Ball(pygame.sprite.Sprite):
     """
     Moving ball
@@ -16,16 +15,25 @@ class Ball(pygame.sprite.Sprite):
     Functions: reinit, update
     """
 
+    MAX_RESIZE_TIMES = 1
+
     def __init__(self, area, vector):
         super().__init__()
-        self.image, self.rect = load_png(BALL_IMG)
+        self.resize_state = 0
+        self.image = self.rect = None
         self.area = area
         self.active = True
         if vector:
             self.vector = vector
         else:
-            self.vector = random.uniform(0.25, math.pi - 0.25), BASE_SPEED/MAX_FPS
+            self.vector = random.uniform(0.25, math.pi - 0.25), BASE_SPEED / MAX_FPS
         self.custom_angle = self.collided = self.hit = self.tl = self.tr = self.bl = self.br = False
+        self.reinit()
+
+    def reinit(self):
+        self.image, self.rect = load_png(BALL_IMG)
+        self.rect.center = self.area.center
+        self.resize_state = 0
 
     def update(self):
         newpos = self.calcnewpos(self.rect, self.vector)
@@ -68,5 +76,24 @@ class Ball(pygame.sprite.Sprite):
 
     def calcnewpos(self, rect, vector):
         (angle, z) = vector
-        (dx, dy) = (round(z * math.cos(angle),0),round(z * math.sin(angle),0))
+        (dx, dy) = (round(z * math.cos(angle), 0), round(z * math.sin(angle), 0))
         return rect.move(dx, dy)
+
+    def shrink(self):
+        if self.resize_state != -self.MAX_RESIZE_TIMES:
+            self._resize_by(0.8)
+            self.resize_state -= 1
+
+    def expand(self):
+        if self.resize_state != self.MAX_RESIZE_TIMES:
+            self._resize_by(1.2)
+            self.resize_state += 1
+
+    def _resize_by(self, by):
+        self.image = pygame.transform.scale(self.image, (round(self.image.get_width() * by),
+                                                         (round(self.image.get_height() * by))))
+        old_pos = self.rect.topleft
+        self.rect = self.image.get_rect()
+        self.rect.topleft = old_pos
+        if not self.area.contains(self.rect):
+            self.rect.center = self.area.center

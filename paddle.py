@@ -12,16 +12,16 @@ class Paddle(pygame.sprite.Sprite):
     Functions: reinit, update, move_left, move_right
     """
 
-    MAX_EXPAND = 2
+    MAX_RESIZE_TIMES = 2
 
     def __init__(self, area):
         super().__init__()
-        self.image, self.rect = load_png(PADDLE_IMG)
+        self.image = self.rect = None
         self.area = area
         self.speed = 300 / MAX_FPS
         self.movepos = [0, 0]
         self.bounce_angle_range = (3.4, 6.)
-        self.bounce_angle_array = np.linspace(*self.bounce_angle_range, self.rect.width)
+        self.bounce_angle_array = None
         self.resize_state = 0
         self.reinit()
 
@@ -30,6 +30,7 @@ class Paddle(pygame.sprite.Sprite):
         self.movepos = [0, 0]
         self.rect.midbottom = self.area.midbottom
         self.resize_state = 0
+        self.bounce_angle_array = np.linspace(*self.bounce_angle_range, self.rect.width)
 
     def update(self):
         newpos = self.rect.move(self.movepos)
@@ -55,12 +56,12 @@ class Paddle(pygame.sprite.Sprite):
         return self.bounce_angle_array[idx]
 
     def shrink(self):
-        if self.resize_state != -self.MAX_EXPAND:
+        if self.resize_state != -self.MAX_RESIZE_TIMES:
             self._resize_width_by(0.8)
             self.resize_state -= 1
 
     def expand(self):
-        if self.resize_state != self.MAX_EXPAND:
+        if self.resize_state != self.MAX_RESIZE_TIMES:
             self._resize_width_by(1.2)
             self.resize_state += 1
 
