@@ -10,5 +10,6 @@ class BonusType(Enum):
     BALL_SLOW_DOWN = auto()
     PADDLE_SPEED_UP = auto()
     PADDLE_SLOW_DOWN = auto()
+    BALL_MULTIPLY = auto()
     PADDLE_LASER = auto()
     BALL_SUPER = auto()

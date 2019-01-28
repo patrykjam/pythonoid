@@ -1,7 +1,10 @@
-from settings import *
 from os import listdir
 from os.path import isfile, join
+
 import pygame
+
+from settings import SOUNDS_DIR, SOUNDTRACK
+
 
 def init_mixer():
     pygame.mixer.pre_init(44100, -16, 2, 2048)
@@ -10,9 +13,9 @@ def init_mixer():
     pygame.mixer.Channel(0).set_volume(0.3)
     pygame.mixer.set_reserved(0)
     pygame.mixer.set_reserved(1)
-    pygame.mixer.map =\
-        {key: pygame.mixer.Sound(key) for key in[SOUNDS_DIR + f for f in listdir(SOUNDS_DIR) if isfile(join(SOUNDS_DIR, f))]}
-
+    pygame.mixer.map = \
+        {key: pygame.mixer.Sound(key) for key in
+         [SOUNDS_DIR + f for f in listdir(SOUNDS_DIR) if isfile(join(SOUNDS_DIR, f))]}
 
 
 def setmusic():
@@ -36,6 +39,6 @@ def queueeffect(effect):
 
 def solochanneleffect(effect):
     # look for free channel and play, soundtrack channel 1 and queue channel 2 excluded
-        channel = pygame.mixer.find_channel()
-        if channel is not None:
-            channel.play(pygame.mixer.map[effect])
+    channel = pygame.mixer.find_channel()
+    if channel is not None:
+        channel.play(pygame.mixer.map[effect])
