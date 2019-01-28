@@ -12,21 +12,26 @@ class Paddle(pygame.sprite.Sprite):
     Functions: reinit, update, move_left, move_right
     """
 
+    MAX_RESIZE_TIMES = 2
+    MAX_SPEED_CHANGE = 1
+
     def __init__(self, area):
         super().__init__()
-        self.image, self.rect = load_png(PADDLE_IMG)
+        self.image = self.rect = None
         self.area = area
-        self.speed = 600/MAX_FPS
+        self.speed = 300 / MAX_FPS
         self.movepos = [0, 0]
-        self.state = "still"
         self.bounce_angle_range = (3.4, 6.)
-        self.bounce_angle_array = np.linspace(*self.bounce_angle_range, self.rect.width)
+        self.bounce_angle_array = None
+        self.resize_state = self.speed_state = 0
         self.reinit()
 
     def reinit(self):
-        self.state = "still"
+        self.image, self.rect = load_png(PADDLE_IMG)
         self.movepos = [0, 0]
         self.rect.midbottom = self.area.midbottom
+        self.resize_state = self.speed_state = 0
+        self.bounce_angle_array = np.linspace(*self.bounce_angle_range, self.rect.width)
 
     def update(self):
         newpos = self.rect.move(self.movepos)
@@ -36,15 +41,12 @@ class Paddle(pygame.sprite.Sprite):
 
     def move_left(self):
         self.movepos[0] = self.movepos[0] - self.speed
-        self.state = "moveleft"
 
     def move_right(self):
         self.movepos[0] = self.movepos[0] + self.speed
-        self.state = "moveright"
 
     def stop(self):
         self.movepos = [0, 0]
-        self.state = "still"
 
     def get_bounce_angle(self, ball_x):
         idx = ball_x - self.rect.left
@@ -53,3 +55,32 @@ class Paddle(pygame.sprite.Sprite):
         if idx > self.rect.width:
             idx = self.rect.width - 1
         return self.bounce_angle_array[idx]
+
+    def shrink(self):
+        if self.resize_state != -self.MAX_RESIZE_TIMES:
+            self._resize_width_by(0.8)
+            self.resize_state -= 1
+
+    def expand(self):
+        if self.resize_state != self.MAX_RESIZE_TIMES:
+            self._resize_width_by(1.2)
+            self.resize_state += 1
+
+    def _resize_width_by(self, by):
+        self.image = pygame.transform.scale(self.image, (round(self.image.get_width() * by), self.image.get_height()))
+        old_pos = self.rect.topleft
+        self.rect = self.image.get_rect()
+        self.rect.topleft = old_pos
+        self.bounce_angle_array = np.linspace(*self.bounce_angle_range, self.rect.width)
+        if not self.area.contains(self.rect):
+            self.rect.midbottom = self.area.midbottom
+
+    def slow_down(self):
+        if self.resize_state != -self.MAX_SPEED_CHANGE:
+            self.speed *= 0.8
+            self.speed_state -= 1
+
+    def speed_up(self):
+        if self.resize_state != self.MAX_SPEED_CHANGE:
+            self.speed *= 1.2
+            self.speed_state += 1

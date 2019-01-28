@@ -8,6 +8,7 @@ PLAYERS = 1
 MAX_FPS = 60
 HEIGHT_RES = 700
 WIDTH_RES = 600
+BONUS_CHANCE = 0.3
 IMAGES_DIR = "images/"
 SOUNDS_DIR = 'sounds/'
 PADDLE_IMG = IMAGES_DIR + "paddle.png"

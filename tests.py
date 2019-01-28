@@ -43,7 +43,7 @@ class TestPythonoid(unittest.TestCase):
 
         for i in range(1, tested_initial_number_of_balls_count + 1):
             start_balls = i
-            player_screen.balls = [Ball(None, None) for _ in range(start_balls)]
+            player_screen.balls = [Ball(pygame.Rect(0, 0, 0, 0), None) for _ in range(start_balls)]
             expected_balls = start_balls
             expected_multiplication = 3
             tested_multiplication_count = 6

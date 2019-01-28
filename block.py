@@ -3,6 +3,7 @@ import random
 import pygame
 from pygame.rect import Rect
 
+from bonus import Bonus
 from settings import BLOCK_COLORS
 
 
@@ -17,6 +18,7 @@ class Block(pygame.Surface):
         super().__init__((width, height))
         self.rect = Rect(top, left, width, height)
         self.life = random.randint(1, 6)
+        self.bonus = Bonus(self.rect)
         self.update()
 
     def get_rect(self):
