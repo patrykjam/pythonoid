@@ -24,9 +24,9 @@ class Bonus(pygame.Surface):
         self.rect.center = block_rect.center
         self.speed = 100 / MAX_FPS
         self.active = True
-        self.fill(pygame.Color('orange'))
+        self.fill(pygame.Color('Tomato'))
         self.bonus_type = random.choice(list(BonusType))
-        self.blit(Bonus.text_surface.get_text_surface('?'), (8, 0))
+        self.blit(Bonus.text_surface.get_text_surface('?'), (4, 1))
 
     def get_rect(self):
         return self.rect
