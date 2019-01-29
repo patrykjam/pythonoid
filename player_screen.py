@@ -145,3 +145,11 @@ class PlayerScreen(object):
         elif bonus_type == BonusType.BALL_SUPER:
             for b in self.balls:
                 b.super_ball()
+
+    def laser(self):
+        for b in self.blocks:
+            if b.get_rect().left < self.paddle.rect.centerx < b.get_rect().right:
+                b.life -= 1
+                self.score += 10
+                b.update()
+        self.check_blocks()
