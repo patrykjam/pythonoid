@@ -94,9 +94,6 @@ class PlayerScreen(object):
                 return True
         return None
 
-    def shrink(self):
-        self.balls[0].speed_up()
-
     def check_blocks(self):
         dead_blocks = [bl for bl in self.blocks if bl.life <= 0]
         if dead_blocks:
