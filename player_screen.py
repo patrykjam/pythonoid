@@ -48,8 +48,13 @@ class PlayerScreen(object):
             if ball.hit:
                 for block in self.blocks:
                     if ball.rect.colliderect(block.rect) and not ball.collided:
-                        self.score += 10
-                        block.life -= 1
+                        if ball.is_super_ball():
+                            self.score += 10 * block.life
+                            block.life = 0
+                            ball.hit = False
+                        else:
+                            self.score += 10
+                            block.life -= 1
                         soundmixer.solochanneleffect(PADDLE_HIT)
                     block.update()
             self.check_blocks()
@@ -138,4 +143,5 @@ class PlayerScreen(object):
         elif bonus_type == BonusType.PADDLE_LASER:
             pass
         elif bonus_type == BonusType.BALL_SUPER:
-            pass
+            for b in self.balls:
+                b.super_ball()

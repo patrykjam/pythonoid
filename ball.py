@@ -17,10 +17,11 @@ class Ball(pygame.sprite.Sprite):
 
     MAX_RESIZE_TIMES = 1
     MAX_SPEED_CHANGE = 2
+    SUPER_BALL_TIME = 160
 
     def __init__(self, area, vector):
         super().__init__()
-        self.resize_state = self.speed_state = 0
+        self.resize_state = self.speed_state = self.super_ball_time = 0
         self.image = self.rect = None
         self.area = area
         self.active = True
@@ -37,6 +38,8 @@ class Ball(pygame.sprite.Sprite):
         self.resize_state = self.speed_state = 0
 
     def update(self):
+        if self.super_ball_time:
+            self.super_ball_time -= 1
         newpos = self.calcnewpos(self.rect, self.vector)
         self.rect = newpos
         (angle, z) = self.vector
@@ -112,3 +115,9 @@ class Ball(pygame.sprite.Sprite):
             speed *= 1.3
             self.vector = v, speed
             self.speed_state += 1
+
+    def is_super_ball(self):
+        return self.super_ball_time
+
+    def super_ball(self):
+        self.super_ball_time = Ball.SUPER_BALL_TIME
