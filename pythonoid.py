@@ -13,7 +13,6 @@ def start_screen():
     screen = pygame.display.set_mode((width, height), pygame.FULLSCREEN if settings.FULLSCREEN else 0)
     surface = pygame.Surface((width, height))
     surface.fill(pygame.Color(BACKGROUND_COLOR))
-    clock = pygame.time.Clock()
     text_surface_title = TextSurface(size=189)
     text_surface_text = TextSurface()
     intro = True
