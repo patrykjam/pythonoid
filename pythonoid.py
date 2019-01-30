@@ -71,19 +71,17 @@ def pythonoid():
             elif event.type == KEYDOWN:
                 if event.key == K_ESCAPE:
                     pygame.quit()
-                if event.key == K_UP:
-                    for p in player_screens:
-                        p.multiply_balls()
-
                 for p in player_screens:
-                    if event.key == p.move_left_key:
+                    if event.key == p.up_key:
+                        p.shoot_laser()
+                    if event.key == p.left_key:
                         p.paddle.move_left()
-                    if event.key == p.move_right_key:
+                    if event.key == p.right_key:
                         p.paddle.move_right()
 
             elif event.type == KEYUP:
                 for p in player_screens:
-                    if event.key in (p.move_left_key, p.move_right_key):
+                    if event.key in (p.left_key, p.right_key):
                         p.paddle.stop()
 
         for i, p in enumerate(player_screens):

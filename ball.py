@@ -28,7 +28,7 @@ class Ball(pygame.sprite.Sprite):
         if vector:
             self.vector = vector
         else:
-            self.vector = random.uniform(0.25, math.pi - 0.25), BASE_SPEED / MAX_FPS
+            self.vector = random.uniform(1, math.pi - 1), BASE_SPEED / MAX_FPS
         self.custom_angle = self.collided = self.hit = self.tl = self.tr = self.bl = self.br = False
         self.reinit()
 

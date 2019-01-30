@@ -20,7 +20,7 @@ class PlayerScreen(object):
 
     def __init__(self, subsurface, controls):
         self.subsurface = subsurface
-        self.move_left_key, self.move_right_key = controls
+        self.up_key, self.left_key, self.down_key, self.right_key = controls
         self.score = 0
         self.paddle = Paddle(subsurface.get_rect())
         self.balls = [Ball(subsurface.get_rect(), None)]
@@ -99,8 +99,15 @@ class PlayerScreen(object):
                 return True
         return None
 
-    def shrink(self):
-        self.balls[0].speed_up()
+    def shoot_laser(self):
+        if self.paddle.laser:
+            self.paddle.laser -= 1
+            for b in self.blocks:
+                if b.get_rect().left < self.paddle.rect.centerx < b.get_rect().right:
+                    b.life -= 1
+                    self.score += 10
+                    b.update()
+            self.check_blocks()
 
     def check_blocks(self):
         dead_blocks = [bl for bl in self.blocks if bl.life <= 0]
@@ -141,15 +148,7 @@ class PlayerScreen(object):
         elif bonus_type == BonusType.BALL_MULTIPLY:
             self.multiply_balls()
         elif bonus_type == BonusType.PADDLE_LASER:
-            pass
+            self.paddle.init_laser()
         elif bonus_type == BonusType.BALL_SUPER:
             for b in self.balls:
                 b.super_ball()
-
-    def laser(self):
-        for b in self.blocks:
-            if b.get_rect().left < self.paddle.rect.centerx < b.get_rect().right:
-                b.life -= 1
-                self.score += 10
-                b.update()
-        self.check_blocks()
