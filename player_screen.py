@@ -1,4 +1,5 @@
 import math
+import random
 
 import soundmixer as soundmixer
 from ball import Ball
@@ -18,25 +19,20 @@ class PlayerScreen(object):
     """
     text_surface = TextSurface()
 
-    def __init__(self, subsurface, controls):
+    def __init__(self, subsurface, controls, blocks):
         self.subsurface = subsurface
         self.move_left_key, self.move_right_key = controls
         self.score = 0
         self.paddle = Paddle(subsurface.get_rect())
         self.balls = [Ball(subsurface.get_rect(), None)]
-        self.blocks = [
-            Block(20, 50, 100, 30),
-            Block(130, 50, 100, 30),
-            Block(240, 50, 100, 30),
-            Block(350, 50, 100, 30),
-            Block(460, 50, 100, 30),
-            Block(20, 130, 100, 30),
-            Block(130, 130, 100, 30),
-            Block(240, 130, 100, 30),
-            Block(350, 130, 100, 30),
-            Block(460, 130, 100, 30)
-        ]
+        self.blocks = blocks
         self.bonuses = []
+
+    def load_map(self,blocks):
+        self.balls = [Ball(self.subsurface.get_rect(), None)]
+        self.blocks = blocks
+        self.bonuses = []
+        self.paddle = Paddle(self.subsurface.get_rect())
 
     def update(self):
         for ball in self.balls:
