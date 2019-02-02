@@ -14,10 +14,10 @@ class Block(pygame.Surface):
     Functions: update
     """
 
-    def __init__(self, top, left, width, height):
+    def __init__(self, top, left, width, height, life):
         super().__init__((width, height))
         self.rect = Rect(top, left, width, height)
-        self.life = random.randint(1, 6)
+        self.life = life
         self.bonus = Bonus(self.rect)
         self.update()
 
