@@ -14,6 +14,7 @@ class Paddle(pygame.sprite.Sprite):
 
     MAX_RESIZE_TIMES = 2
     MAX_SPEED_CHANGE = 1
+    LASER_COUNT = 3
 
     def __init__(self, area):
         super().__init__()
@@ -23,7 +24,7 @@ class Paddle(pygame.sprite.Sprite):
         self.movepos = [0, 0]
         self.bounce_angle_range = (3.4, 6.)
         self.bounce_angle_array = None
-        self.resize_state = self.speed_state = 0
+        self.resize_state = self.speed_state = self.laser = 0
         self.reinit()
 
     def reinit(self):
@@ -84,3 +85,6 @@ class Paddle(pygame.sprite.Sprite):
         if self.resize_state != self.MAX_SPEED_CHANGE:
             self.speed *= 1.2
             self.speed_state += 1
+
+    def init_laser(self):
+        self.laser += Paddle.LASER_COUNT
