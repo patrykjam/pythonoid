@@ -1,8 +1,9 @@
+import time as time_sleep
+
 import pygame
 from pygame.locals import *
 
 import settings
-import time as time_sleep
 import soundmixer as soundmixer
 from map_loader import Map_Loader
 from player_screen import PlayerScreen
@@ -41,6 +42,8 @@ def start_screen():
                 elif event.key == K_2:
                     settings.PLAYERS = 2
                     intro = False
+
+
 def end_screen(players):
     width, height = (WIDTH_RES * 2, HEIGHT_RES)
     screen = pygame.display.set_mode((width, height), pygame.FULLSCREEN if settings.FULLSCREEN else 0)
@@ -51,12 +54,10 @@ def end_screen(players):
 
     ranking = []
     for i, p in enumerate(players):
-        ranking.append((i+1, players[i].score))
+        ranking.append((i + 1, players[i].score))
 
     print(ranking)
     ranking.sort(key=lambda tup: -tup[0])
-
-
 
     while 1:
         surface.blit(text_surface_title.get_text_surface('PYTHONOID'), (0, 0))
@@ -64,9 +65,9 @@ def end_screen(players):
         shift = 40
 
         for (player, score) in ranking:
-            surface.blit(text_surface_text.get_text_surface("Player {}, score: {}.".format(player, score)), (0, height / 4 + shift))
+            surface.blit(text_surface_text.get_text_surface("Player {}, score: {}.".format(player, score)),
+                         (0, height / 4 + shift))
             shift += 40
-
 
         screen.blit(surface, (0, 0))
         pygame.display.flip()
@@ -77,6 +78,7 @@ def end_screen(players):
             elif event.type == KEYDOWN:
                 if event.key == K_ESCAPE:
                     pygame.quit()
+
 
 def pythonoid():
     PLAYERS = settings.PLAYERS
@@ -95,7 +97,7 @@ def pythonoid():
             canvas.subsurface(pygame.Rect(i * width / PLAYERS, 0, width / PLAYERS, height)),
             controls,
             map_loader.get_blocks())
-         for i, controls in zip(range(PLAYERS), PLAYER_CONTROLS)]
+            for i, controls in zip(range(PLAYERS), PLAYER_CONTROLS)]
 
     time = 0
     soundmixer.setmusic()
@@ -112,19 +114,17 @@ def pythonoid():
             elif event.type == KEYDOWN:
                 if event.key == K_ESCAPE:
                     pygame.quit()
-                if event.key == K_UP:
-                    for p in player_screens:
-                        p.multiply_balls()
-
                 for p in player_screens:
-                    if event.key == p.move_left_key:
+                    if event.key == p.up_key:
+                        p.shoot_laser()
+                    if event.key == p.left_key:
                         p.paddle.move_left()
-                    if event.key == p.move_right_key:
+                    if event.key == p.right_key:
                         p.paddle.move_right()
 
             elif event.type == KEYUP:
                 for p in player_screens:
-                    if event.key in (p.move_left_key, p.move_right_key):
+                    if event.key in (p.left_key, p.right_key):
                         p.paddle.stop()
 
         for i, p in enumerate(player_screens):
@@ -146,12 +146,9 @@ def pythonoid():
             time_sleep.sleep(2)
             soundmixer.setmusic()
 
-
     print("end")
-    #display result
+    # display result
     end_screen(player_screens)
-
-
 
 
 if __name__ == '__main__':

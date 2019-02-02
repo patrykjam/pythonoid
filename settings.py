@@ -1,7 +1,7 @@
 """
 Settings constants
 """
-from pygame.constants import K_a, K_d, K_LEFT, K_RIGHT
+from pygame.constants import K_a, K_d, K_LEFT, K_RIGHT, K_DOWN, K_UP, K_s, K_w
 
 BASE_SPEED = 600
 PLAYERS = 1
@@ -24,4 +24,4 @@ BALL_LOSS = SOUNDS_DIR + "ball_loss.wav"
 LIFE_LOSS = SOUNDS_DIR + "life_loss.wav"
 WIN = SOUNDS_DIR + "win.wav"
 
-PLAYER_CONTROLS = ((K_a, K_d), (K_LEFT, K_RIGHT))
+PLAYER_CONTROLS = ((K_w, K_a, K_s, K_d), (K_UP, K_LEFT, K_DOWN, K_RIGHT))

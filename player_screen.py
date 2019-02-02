@@ -1,9 +1,8 @@
 import math
-import random
 
 import soundmixer as soundmixer
+from Laser import Laser
 from ball import Ball
-from block import Block
 from bonus import Bonus
 from bonus_type import BonusType
 from paddle import Paddle
@@ -21,14 +20,15 @@ class PlayerScreen(object):
 
     def __init__(self, subsurface, controls, blocks):
         self.subsurface = subsurface
-        self.move_left_key, self.move_right_key = controls
+        self.up_key, self.left_key, self.down_key, self.right_key = controls
         self.score = 0
         self.paddle = Paddle(subsurface.get_rect())
         self.balls = [Ball(subsurface.get_rect(), None)]
         self.blocks = blocks
         self.bonuses = []
+        self.laser = Laser(self.subsurface.get_rect().height - 20)
 
-    def load_map(self,blocks):
+    def load_map(self, blocks):
         self.balls = [Ball(self.subsurface.get_rect(), None)]
         self.blocks = blocks
         self.bonuses = []
@@ -44,8 +44,13 @@ class PlayerScreen(object):
             if ball.hit:
                 for block in self.blocks:
                     if ball.rect.colliderect(block.rect) and not ball.collided:
-                        self.score += 10
-                        block.life -= 1
+                        if ball.is_super_ball():
+                            self.score += 10 * block.life
+                            block.life = 0
+                            ball.hit = False
+                        else:
+                            self.score += 10
+                            block.life -= 1
                         soundmixer.solochanneleffect(PADDLE_HIT)
                     block.update()
             self.check_blocks()
@@ -59,6 +64,7 @@ class PlayerScreen(object):
             soundmixer.queueeffect(LIFE_LOSS)
         for b in self.bonuses:
             b.update()
+        self.laser.update()
 
     def blit(self):
         for b in self.balls:
@@ -68,6 +74,8 @@ class PlayerScreen(object):
         for b in self.bonuses:
             self.subsurface.blit(b, b.rect)
         self.subsurface.blit(self.paddle.image, self.paddle.rect)
+        if self.laser.show:
+            self.subsurface.blit(self.laser.image, (self.paddle.rect.centerx - 10, 0))
         self.subsurface.blit(PlayerScreen.text_surface.get_text_surface('Score: {}'.format(self.score)), (0, 0))
 
     def multiply_balls(self):
@@ -89,6 +97,16 @@ class PlayerScreen(object):
                 ball.tl = a.rect.collidepoint(ball.rect.bottomright)
                 return True
         return None
+
+    def shoot_laser(self):
+        if self.paddle.laser:
+            self.paddle.laser -= 1
+            for b in self.blocks:
+                if b.get_rect().left < self.paddle.rect.centerx < b.get_rect().right:
+                    b.life -= 1
+                    self.score += 10
+                    b.update()
+            self.check_blocks()
 
     def check_blocks(self):
         dead_blocks = [bl for bl in self.blocks if bl.life <= 0]
@@ -129,6 +147,8 @@ class PlayerScreen(object):
         elif bonus_type == BonusType.BALL_MULTIPLY:
             self.multiply_balls()
         elif bonus_type == BonusType.PADDLE_LASER:
-            pass
+            self.paddle.init_laser()
+            self.laser.activate()
         elif bonus_type == BonusType.BALL_SUPER:
-            pass
+            for b in self.balls:
+                b.super_ball()

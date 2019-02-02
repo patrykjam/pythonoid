@@ -6,6 +6,7 @@ import pygame
 import soundmixer as soundmixer
 from load_utils import load_png
 from settings import BALL_IMG, BALL_LOSS, PADDLE_HIT, MAX_FPS, BASE_SPEED
+from surface_utils import SurfaceUtils
 
 
 class Ball(pygame.sprite.Sprite):
@@ -17,26 +18,37 @@ class Ball(pygame.sprite.Sprite):
 
     MAX_RESIZE_TIMES = 1
     MAX_SPEED_CHANGE = 2
+    SUPER_BALL_TIME = 160
+    DEFAULT_BALL = None
+    SUPER_BALL_IMG = None
 
     def __init__(self, area, vector):
         super().__init__()
-        self.resize_state = self.speed_state = 0
+        self.resize_state = self.speed_state = self.super_ball_time = 0
         self.image = self.rect = None
         self.area = area
         self.active = True
         if vector:
             self.vector = vector
         else:
-            self.vector = random.uniform(0.25, math.pi - 0.25), BASE_SPEED / MAX_FPS
+            self.vector = random.uniform(1.25, math.pi - 1.25), BASE_SPEED / MAX_FPS
         self.custom_angle = self.collided = self.hit = self.tl = self.tr = self.bl = self.br = False
         self.reinit()
 
     def reinit(self):
-        self.image, self.rect = load_png(BALL_IMG)
+        if not Ball.DEFAULT_BALL:
+            Ball.DEFAULT_BALL = load_png(BALL_IMG)
+        self.image, self.rect = Ball.DEFAULT_BALL
+        if not Ball.SUPER_BALL_IMG:
+            Ball.SUPER_BALL_IMG = SurfaceUtils.color_surface(self.image, pygame.Color('Purple'))
         self.rect.center = self.area.center
         self.resize_state = self.speed_state = 0
 
     def update(self):
+        if self.super_ball_time:
+            self.super_ball_time -= 1
+            if not self.super_ball_time:
+                self.image, _ = Ball.DEFAULT_BALL
         newpos = self.calcnewpos(self.rect, self.vector)
         self.rect = newpos
         (angle, z) = self.vector
@@ -112,3 +124,10 @@ class Ball(pygame.sprite.Sprite):
             speed *= 1.3
             self.vector = v, speed
             self.speed_state += 1
+
+    def is_super_ball(self):
+        return self.super_ball_time
+
+    def super_ball(self):
+        self.super_ball_time = Ball.SUPER_BALL_TIME
+        self.image = Ball.SUPER_BALL_IMG
