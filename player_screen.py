@@ -1,9 +1,8 @@
 import math
-import random
 
 import soundmixer as soundmixer
+from Laser import Laser
 from ball import Ball
-from block import Block
 from bonus import Bonus
 from bonus_type import BonusType
 from paddle import Paddle
@@ -27,8 +26,9 @@ class PlayerScreen(object):
         self.balls = [Ball(subsurface.get_rect(), None)]
         self.blocks = blocks
         self.bonuses = []
+        self.laser = Laser(self.subsurface.get_rect().height - 20)
 
-    def load_map(self,blocks):
+    def load_map(self, blocks):
         self.balls = [Ball(self.subsurface.get_rect(), None)]
         self.blocks = blocks
         self.bonuses = []
@@ -64,6 +64,7 @@ class PlayerScreen(object):
             soundmixer.queueeffect(LIFE_LOSS)
         for b in self.bonuses:
             b.update()
+        self.laser.update()
 
     def blit(self):
         for b in self.balls:
@@ -73,6 +74,8 @@ class PlayerScreen(object):
         for b in self.bonuses:
             self.subsurface.blit(b, b.rect)
         self.subsurface.blit(self.paddle.image, self.paddle.rect)
+        if self.laser.show:
+            self.subsurface.blit(self.laser.image, (self.paddle.rect.centerx - 10, 0))
         self.subsurface.blit(PlayerScreen.text_surface.get_text_surface('Score: {}'.format(self.score)), (0, 0))
 
     def multiply_balls(self):
@@ -145,6 +148,7 @@ class PlayerScreen(object):
             self.multiply_balls()
         elif bonus_type == BonusType.PADDLE_LASER:
             self.paddle.init_laser()
+            self.laser.activate()
         elif bonus_type == BonusType.BALL_SUPER:
             for b in self.balls:
                 b.super_ball()
