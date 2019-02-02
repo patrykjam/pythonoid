@@ -41,7 +41,42 @@ def start_screen():
                 elif event.key == K_2:
                     settings.PLAYERS = 2
                     intro = False
+def end_screen(players):
+    width, height = (WIDTH_RES * 2, HEIGHT_RES)
+    screen = pygame.display.set_mode((width, height), pygame.FULLSCREEN if settings.FULLSCREEN else 0)
+    surface = pygame.Surface((width, height))
+    surface.fill(pygame.Color(BACKGROUND_COLOR))
+    text_surface_title = TextSurface(size=189)
+    text_surface_text = TextSurface()
 
+    ranking = []
+    for i, p in enumerate(players):
+        ranking.append((i+1, players[i].score))
+
+    print(ranking)
+    ranking.sort(key=lambda tup: -tup[0])
+
+
+
+    while 1:
+        surface.blit(text_surface_title.get_text_surface('PYTHONOID'), (0, 0))
+        surface.blit(text_surface_text.get_text_surface('Ranking:'), (0, height / 4))
+        shift = 40
+
+        for (player, score) in ranking:
+            surface.blit(text_surface_text.get_text_surface("Player {}, score: {}.".format(player, score)), (0, height / 4 + shift))
+            shift += 40
+
+
+        screen.blit(surface, (0, 0))
+        pygame.display.flip()
+
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+            elif event.type == KEYDOWN:
+                if event.key == K_ESCAPE:
+                    pygame.quit()
 
 def pythonoid():
     PLAYERS = settings.PLAYERS
@@ -114,6 +149,9 @@ def pythonoid():
 
     print("end")
     #display result
+    end_screen(player_screens)
+
+
 
 
 if __name__ == '__main__':
