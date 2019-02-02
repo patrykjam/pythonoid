@@ -18,14 +18,14 @@ class TestPythonoid(unittest.TestCase):
     def test_initial_player_screen_balls(self):
         soundmixer.init_mixer()
         pygame.display.set_mode((0, 0))
-        player_screen = PlayerScreen(pygame.Surface((0, 0)), (None, None, None, None), [])
+        player_screen = PlayerScreen(pygame.Surface((100, 100)), (None, None, None, None), [])
 
         self.assertEqual(1, len(player_screen.balls))
 
     def test_player_screen_multiply_balls(self):
         soundmixer.init_mixer()
         pygame.display.set_mode((0, 0))
-        player_screen = PlayerScreen(pygame.Surface((0, 0)), (None, None, None, None), [])
+        player_screen = PlayerScreen(pygame.Surface((100, 100)), (None, None, None, None), [])
         expected_balls = 1
         expected_multiplication = 3
         tested_multiplication_count = 8
@@ -38,7 +38,7 @@ class TestPythonoid(unittest.TestCase):
     def test_player_screen_multiply_balls_random_initial(self):
         soundmixer.init_mixer()
         pygame.display.set_mode((0, 0))
-        player_screen = PlayerScreen(pygame.Surface((0, 0)), (None, None, None, None), [])
+        player_screen = PlayerScreen(pygame.Surface((100, 100)), (None, None, None, None), [])
         tested_initial_number_of_balls_count = 6
 
         for i in range(1, tested_initial_number_of_balls_count + 1):
@@ -67,7 +67,7 @@ class TestPythonoid(unittest.TestCase):
             self.assertEqual(expected_color, block._get_color())
 
     def test_block_color_in_color_range(self):
-        block = Block(0, 0, 0, 0, 0)
+        block = Block(0, 0, 0, 1, 1)
 
         for life, expected_color in enumerate(BLOCK_COLORS, start=1):
             block.life = life
