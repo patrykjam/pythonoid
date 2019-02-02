@@ -54,7 +54,7 @@ class TestPythonoid(unittest.TestCase):
                 self.assertEqual(expected_balls, len(player_screen.balls))
 
     def test_block_color_out_of_color_range(self):
-        block = Block(0, 0, 0, 0)
+        block = Block(0, 0, 0, 0, 0)
         max_colors = len(BLOCK_COLORS)
 
         expected = ((-1, BLOCK_COLORS[-1]),
@@ -67,7 +67,7 @@ class TestPythonoid(unittest.TestCase):
             self.assertEqual(expected_color, block._get_color())
 
     def test_block_color_in_color_range(self):
-        block = Block(0, 0, 0, 0)
+        block = Block(0, 0, 0, 0, 0)
 
         for life, expected_color in enumerate(BLOCK_COLORS, start=1):
             block.life = life
