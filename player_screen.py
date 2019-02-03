@@ -7,7 +7,7 @@ from bonus import Bonus
 from bonus_type import BonusType
 from paddle import Paddle
 from random_utils import RandomUtils
-from settings import PADDLE_HIT, WIN, LIFE_LOSS, BONUS_CHANCE
+from settings import PADDLE_HIT, WIN, LIFE_LOSS, BONUS_CHANCE, MAP_TIME, MAX_FPS
 from text_surface import TextSurface
 from map_loader import Map_Loader
 
@@ -28,7 +28,8 @@ class PlayerScreen(object):
         self.score = 0
         self.paddle = Paddle(subsurface.get_rect())
         self.balls = [Ball(subsurface.get_rect(), None)]
-        self.blocks = self.map_loader.get_blocks()
+        self.time_left = 0
+        self.load_map(self.map_loader.get_blocks())
         self.bonuses = []
         self.laser = Laser(self.subsurface.get_rect().height - 20)
 
@@ -36,9 +37,13 @@ class PlayerScreen(object):
         self.balls = [Ball(self.subsurface.get_rect(), None)]
         self.blocks = blocks
         self.bonuses = []
+        self.time_left = MAP_TIME * MAX_FPS
         self.paddle = Paddle(self.subsurface.get_rect())
 
     def update(self):
+
+        self.time_left -= 1
+
         for ball in self.balls:
             if self._check_collision_corners(ball, self.paddle):
                 ball.custom_angle = self.paddle.get_bounce_angle(ball.rect.centerx)
@@ -75,7 +80,7 @@ class PlayerScreen(object):
                 self.load_map(self.map_loader.get_blocks())
             else:
                 self.active = False
-        if not self.balls:
+        if not self.balls or not self.time_left:
             self.active = False
 
     def blit(self):
@@ -89,6 +94,7 @@ class PlayerScreen(object):
         if self.laser.show:
             self.subsurface.blit(self.laser.image, (self.paddle.rect.centerx - 10, 0))
         self.subsurface.blit(PlayerScreen.text_surface.get_text_surface('Score: {}'.format(self.score)), (0, 0))
+        self.subsurface.blit(PlayerScreen.text_surface.get_text_surface('Time left: {}'.format(round(self.time_left/MAX_FPS,1))), (200, 0))
 
     def multiply_balls(self):
         upd_balls = []

@@ -57,7 +57,8 @@ def end_screen(players):
         ranking.append((i + 1, players[i].score))
 
     print(ranking)
-    ranking.sort(key=lambda tup: -tup[0])
+    ranking.sort(key=lambda tup: -tup[1])
+    print(ranking)
 
     end = True
     while end:
@@ -101,14 +102,11 @@ def pythonoid():
             controls)
             for i, controls in zip(range(PLAYERS), PLAYER_CONTROLS)]
 
-    time = 0
     soundmixer.setmusic()
 
     # Event loop
     while 1:
         clock.tick(MAX_FPS)
-        time = time + 1
-        canvas.blit(text_surface.get_text_surface('Time: {}'.format(round(time / MAX_FPS, 1), )), (200, 0))
 
         for event in pygame.event.get():
             if event.type == QUIT:
