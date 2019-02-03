@@ -7,7 +7,7 @@ from bonus import Bonus
 from bonus_type import BonusType
 from paddle import Paddle
 from random_utils import RandomUtils
-from settings import PADDLE_HIT, WIN, LIFE_LOSS, BONUS_CHANCE
+from settings import PADDLE_HIT, WIN, LIFE_LOSS, BONUS_CHANCE, START_LIVES
 from text_surface import TextSurface
 
 
@@ -23,13 +23,14 @@ class PlayerScreen(object):
         self.up_key, self.left_key, self.down_key, self.right_key = controls
         self.score = 0
         self.paddle = Paddle(subsurface.get_rect())
-        self.balls = [Ball(subsurface.get_rect(), None)]
+        self.balls = [Ball(subsurface.get_rect())]
         self.blocks = blocks
         self.bonuses = []
         self.laser = Laser(self.subsurface.get_rect().height - 20)
+        self.life = START_LIVES
 
     def load_map(self, blocks):
-        self.balls = [Ball(self.subsurface.get_rect(), None)]
+        self.balls = [Ball(self.subsurface.get_rect())]
         self.blocks = blocks
         self.bonuses = []
         self.paddle = Paddle(self.subsurface.get_rect())
@@ -62,6 +63,9 @@ class PlayerScreen(object):
         self.balls = [ball for ball in self.balls if ball.active]
         if not self.balls:
             soundmixer.queueeffect(LIFE_LOSS)
+            self.life -= 1
+            if self.life:
+                self.balls = [Ball(self.subsurface.get_rect())]
         for b in self.bonuses:
             b.update()
         self.laser.update()
