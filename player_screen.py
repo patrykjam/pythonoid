@@ -103,8 +103,8 @@ class PlayerScreen(object):
             PlayerScreen.text_surface.get_text_surface('Time left: {}'.format(round(self.time_left / MAX_FPS, 1))),
             (200, 0))
         self.subsurface.blit(self.heart.image, (self.subsurface.get_rect().width - 100, 5))
-        self.subsurface.blit(PlayerScreen.text_surface.get_text_surface(' x{}'.format(self.life)),
-                             (self.subsurface.get_rect().width - 70, 10))
+        self.subsurface.blit(PlayerScreen.text_surface.get_text_surface('x{}'.format(self.life)),
+                             (self.subsurface.get_rect().width - 60, 10))
 
     def multiply_balls(self):
         upd_balls = []
