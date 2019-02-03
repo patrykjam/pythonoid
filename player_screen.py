@@ -9,6 +9,7 @@ from paddle import Paddle
 from random_utils import RandomUtils
 from settings import PADDLE_HIT, WIN, LIFE_LOSS, BONUS_CHANCE
 from text_surface import TextSurface
+from map_loader import Map_Loader
 
 
 class PlayerScreen(object):
@@ -18,13 +19,16 @@ class PlayerScreen(object):
     """
     text_surface = TextSurface()
 
-    def __init__(self, subsurface, controls, blocks):
+    def __init__(self, subsurface, controls):
         self.subsurface = subsurface
+        self.map_loader = Map_Loader()
+        self.map_loader.next_map()
+        self.active = True
         self.up_key, self.left_key, self.down_key, self.right_key = controls
         self.score = 0
         self.paddle = Paddle(subsurface.get_rect())
         self.balls = [Ball(subsurface.get_rect(), None)]
-        self.blocks = blocks
+        self.blocks = self.map_loader.get_blocks()
         self.bonuses = []
         self.laser = Laser(self.subsurface.get_rect().height - 20)
 
@@ -65,6 +69,14 @@ class PlayerScreen(object):
         for b in self.bonuses:
             b.update()
         self.laser.update()
+
+        if not self.blocks:
+            if self.map_loader.next_map():
+                self.load_map(self.map_loader.get_blocks())
+            else:
+                self.active = False
+        if not self.balls:
+            self.active = False
 
     def blit(self):
         for b in self.balls:

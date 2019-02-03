@@ -90,8 +90,6 @@ def pythonoid():
     clock = pygame.time.Clock()
     text_surface = TextSurface()
     soundmixer.init_mixer()
-    map_loader = Map_Loader()
-    map_loader.next_map()
     width, height = WIDTH_RES * PLAYERS, HEIGHT_RES
     screen_res = (width, height)
     screen = pygame.display.set_mode(screen_res, pygame.FULLSCREEN if settings.FULLSCREEN else 0)
@@ -100,8 +98,7 @@ def pythonoid():
     player_screens = \
         [PlayerScreen(
             canvas.subsurface(pygame.Rect(i * width / PLAYERS, 0, width / PLAYERS, height)),
-            controls,
-            map_loader.get_blocks())
+            controls)
             for i, controls in zip(range(PLAYERS), PLAYER_CONTROLS)]
 
     time = 0
@@ -135,24 +132,17 @@ def pythonoid():
         for i, p in enumerate(player_screens):
             screen.blit(p.subsurface, (i * width / PLAYERS, 0))
             p.subsurface.fill(pygame.Color(BACKGROUND_COLOR))
-            if p.blocks and p.balls:
+            if p.active:
                 p.update()
             p.blit()
             pygame.draw.line(p.subsurface, (0, 0, 0), (width / PLAYERS, 0), (width / PLAYERS, height), 5)
         pygame.display.flip()
 
-        if all([not p.balls or not p.blocks for p in player_screens]):
-            if any([not p.balls for p in player_screens]) or not map_loader.next_map():
-                break
-            for p in player_screens:
-                p.load_map(map_loader.get_blocks())
-
-            soundmixer.stopmusic()
+        if all([not p.active for p in player_screens]):
             time_sleep.sleep(2)
-            soundmixer.setmusic()
+            soundmixer.stopmusic()
+            break
 
-    print("end")
-    # display result
     end_screen(player_screens)
 
 

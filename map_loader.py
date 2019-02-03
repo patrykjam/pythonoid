@@ -1,15 +1,15 @@
 import json
-from pprint import pprint
 from block import Block
+from settings import MAP_PATH
 
 
 class Map_Loader(object):
     def __init__(self):
-        with open('mapy.json', encoding='utf-8') as data_file:
+        with open(MAP_PATH, encoding='utf-8') as data_file:
             data = json.load(data_file)
             self.blocks = data["blocks"]
             self.maps = data["maps"]
-            self.title = "None"
+            self.title = None
         self.level = -1
 
     def next_map(self):

@@ -4,6 +4,7 @@ Settings constants
 from pygame.constants import K_a, K_d, K_LEFT, K_RIGHT, K_DOWN, K_UP, K_s, K_w
 
 BASE_SPEED = 600
+MAP_TIME = 180
 PLAYERS = 1
 MAX_FPS = 60
 HEIGHT_RES = 700
@@ -13,6 +14,7 @@ BONUS_CHANCE = 0.3
 IMAGES_DIR = "images/"
 SOUNDS_DIR = 'sounds/'
 FONTS_DIR = 'fonts/'
+MAPS_DIR = 'maps/'
 FONT_AZONIX = FONTS_DIR + "Azonix.otf"
 PADDLE_IMG = IMAGES_DIR + "paddle.png"
 BALL_IMG = IMAGES_DIR + "ball.png"
@@ -22,6 +24,8 @@ SOUNDTRACK = SOUNDS_DIR + "Soundtrack.wav"
 PADDLE_HIT = SOUNDS_DIR + "paddle_hit.wav"
 BALL_LOSS = SOUNDS_DIR + "ball_loss.wav"
 LIFE_LOSS = SOUNDS_DIR + "life_loss.wav"
+MAP_PATH = MAPS_DIR + "mapy.json"
 WIN = SOUNDS_DIR + "win.wav"
+
 
 PLAYER_CONTROLS = ((K_w, K_a, K_s, K_d), (K_UP, K_LEFT, K_DOWN, K_RIGHT))
