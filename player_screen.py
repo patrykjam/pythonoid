@@ -6,11 +6,11 @@ from ball import Ball
 from bonus import Bonus
 from bonus_type import BonusType
 from heart import Heart
+from map_loader import Map_Loader
 from paddle import Paddle
 from random_utils import RandomUtils
 from settings import PADDLE_HIT, WIN, LIFE_LOSS, BONUS_CHANCE, MAP_TIME, MAX_FPS, START_LIVES, LASER_EFFECT
 from text_surface import TextSurface
-from map_loader import Map_Loader
 
 
 class PlayerScreen(object):
@@ -32,6 +32,7 @@ class PlayerScreen(object):
         self.time_left = 0
         self.load_map(self.map_loader.get_blocks())
         self.bonuses = []
+        self.blocks = []
         self.laser = Laser(self.subsurface.get_rect().height - 20)
         self.life = START_LIVES
         self.heart = Heart()
@@ -98,7 +99,9 @@ class PlayerScreen(object):
         if self.laser.show:
             self.subsurface.blit(self.laser.image, (self.paddle.rect.centerx - 10, 0))
         self.subsurface.blit(PlayerScreen.text_surface.get_text_surface('Score: {}'.format(self.score)), (0, 0))
-        self.subsurface.blit(PlayerScreen.text_surface.get_text_surface('Time left: {}'.format(round(self.time_left/MAX_FPS,1))), (200, 0))
+        self.subsurface.blit(
+            PlayerScreen.text_surface.get_text_surface('Time left: {}'.format(round(self.time_left / MAX_FPS, 1))),
+            (200, 0))
         self.subsurface.blit(self.heart.image, (self.subsurface.get_rect().width - 100, 5))
         self.subsurface.blit(PlayerScreen.text_surface.get_text_surface(' x{}'.format(self.life)),
                              (self.subsurface.get_rect().width - 70, 10))
