@@ -13,3 +13,4 @@ class BonusType(Enum):
     BALL_MULTIPLY = auto()
     PADDLE_LASER = auto()
     BALL_SUPER = auto()
+    EXTRA_LIFE = auto()

@@ -17,6 +17,7 @@ FONTS_DIR = 'fonts/'
 FONT_AZONIX = FONTS_DIR + "Azonix.otf"
 PADDLE_IMG = IMAGES_DIR + "paddle.png"
 BALL_IMG = IMAGES_DIR + "ball.png"
+HEART_IMG = IMAGES_DIR + "heart.png"
 BACKGROUND_COLOR = 'white'
 BLOCK_COLORS = ('green', 'yellow', 'red', 'grey', 'black')
 SOUNDTRACK = SOUNDS_DIR + "Soundtrack.wav"
