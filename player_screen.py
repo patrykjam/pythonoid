@@ -152,7 +152,6 @@ class PlayerScreen(object):
             self.multiply_balls()
         elif bonus_type == BonusType.PADDLE_LASER:
             self.paddle.init_laser()
-            self.laser.activate()
         elif bonus_type == BonusType.BALL_SUPER:
             for b in self.balls:
                 b.super_ball()
