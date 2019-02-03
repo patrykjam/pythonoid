@@ -1,0 +1,522 @@
+{
+  "blocks": {
+    "basic": [
+      60,
+      25,
+      1
+    ],
+    "advanced": [
+      60,
+      25,
+      3
+    ],
+    "hard": [
+      60,
+      25,
+      5
+    ],
+    "imposibble": [
+      60,
+      25,
+      10
+    ]
+  },
+  "maps": [
+    {
+      "title": "noob level",
+      "blocks": [
+        {
+          "kind": "basic",
+          "x": 10,
+          "y": 10
+        },
+        {
+          "kind": "basic",
+          "x": 80,
+          "y": 10
+        },
+        {
+          "kind": "basic",
+          "x": 150,
+          "y": 10
+        },
+        {
+          "kind": "basic",
+          "x": 220,
+          "y": 10
+        },
+        {
+          "kind": "basic",
+          "x": 290,
+          "y": 10
+        },
+        {
+          "kind": "basic",
+          "x": 360,
+          "y": 10
+        },
+        {
+          "kind": "basic",
+          "x": 430,
+          "y": 10
+        },
+        {
+          "kind": "basic",
+          "x": 500,
+          "y": 10
+        },
+        {
+          "kind": "basic",
+          "x": 10,
+          "y": 60
+        },
+        {
+          "kind": "basic",
+          "x": 80,
+          "y": 60
+        },
+        {
+          "kind": "basic",
+          "x": 150,
+          "y": 60
+        },
+        {
+          "kind": "basic",
+          "x": 220,
+          "y": 60
+        },
+        {
+          "kind": "basic",
+          "x": 290,
+          "y": 60
+        },
+        {
+          "kind": "basic",
+          "x": 360,
+          "y": 60
+        },
+        {
+          "kind": "basic",
+          "x": 430,
+          "y": 60
+        },
+        {
+          "kind": "basic",
+          "x": 500,
+          "y": 60
+        },
+        {
+          "kind": "basic",
+          "x": 10,
+          "y": 110
+        },
+        {
+          "kind": "basic",
+          "x": 80,
+          "y": 110
+        },
+        {
+          "kind": "basic",
+          "x": 150,
+          "y": 110
+        },
+        {
+          "kind": "basic",
+          "x": 220,
+          "y": 110
+        },
+        {
+          "kind": "basic",
+          "x": 290,
+          "y": 110
+        },
+        {
+          "kind": "basic",
+          "x": 360,
+          "y": 110
+        },
+        {
+          "kind": "basic",
+          "x": 430,
+          "y": 110
+        },
+        {
+          "kind": "basic",
+          "x": 500,
+          "y": 110
+        },
+        {
+          "kind": "basic",
+          "x": 10,
+          "y": 160
+        },
+        {
+          "kind": "basic",
+          "x": 80,
+          "y": 160
+        },
+        {
+          "kind": "basic",
+          "x": 150,
+          "y": 160
+        },
+        {
+          "kind": "basic",
+          "x": 220,
+          "y": 160
+        },
+        {
+          "kind": "basic",
+          "x": 290,
+          "y": 160
+        },
+        {
+          "kind": "basic",
+          "x": 360,
+          "y": 160
+        },
+        {
+          "kind": "basic",
+          "x": 430,
+          "y": 160
+        },
+        {
+          "kind": "basic",
+          "x": 500,
+          "y": 160
+        }
+      ]
+
+    },
+    {
+      "title": "2nd level",
+      "blocks": [
+        {
+          "kind": "basic",
+          "x": 10,
+          "y": 10
+        },
+        {
+          "kind": "basic",
+          "x": 80,
+          "y": 10
+        },
+        {
+          "kind": "basic",
+          "x": 150,
+          "y": 10
+        },
+        {
+          "kind": "basic",
+          "x": 220,
+          "y": 10
+        },
+        {
+          "kind": "basic",
+          "x": 290,
+          "y": 10
+        },
+        {
+          "kind": "basic",
+          "x": 360,
+          "y": 10
+        },
+        {
+          "kind": "basic",
+          "x": 430,
+          "y": 10
+        },
+        {
+          "kind": "basic",
+          "x": 500,
+          "y": 10
+        },
+        {
+          "kind": "basic",
+          "x": 10,
+          "y": 60
+        },
+        {
+          "kind": "basic",
+          "x": 80,
+          "y": 60
+        },
+        {
+          "kind": "basic",
+          "x": 150,
+          "y": 60
+        },
+        {
+          "kind": "basic",
+          "x": 220,
+          "y": 60
+        },
+        {
+          "kind": "basic",
+          "x": 290,
+          "y": 60
+        },
+        {
+          "kind": "basic",
+          "x": 360,
+          "y": 60
+        },
+        {
+          "kind": "basic",
+          "x": 430,
+          "y": 60
+        },
+        {
+          "kind": "basic",
+          "x": 500,
+          "y": 60
+        },
+        {
+          "kind": "basic",
+          "x": 10,
+          "y": 110
+        },
+        {
+          "kind": "basic",
+          "x": 80,
+          "y": 110
+        },
+        {
+          "kind": "basic",
+          "x": 150,
+          "y": 110
+        },
+        {
+          "kind": "basic",
+          "x": 220,
+          "y": 110
+        },
+        {
+          "kind": "basic",
+          "x": 290,
+          "y": 110
+        },
+        {
+          "kind": "basic",
+          "x": 360,
+          "y": 110
+        },
+        {
+          "kind": "basic",
+          "x": 430,
+          "y": 110
+        },
+        {
+          "kind": "basic",
+          "x": 500,
+          "y": 110
+        },
+        {
+          "kind": "hard",
+          "x": 10,
+          "y": 160
+        },
+        {
+          "kind": "hard",
+          "x": 80,
+          "y": 160
+        },
+        {
+          "kind": "hard",
+          "x": 150,
+          "y": 160
+        },
+        {
+          "kind": "hard",
+          "x": 220,
+          "y": 160
+        },
+        {
+          "kind": "hard",
+          "x": 290,
+          "y": 160
+        },
+        {
+          "kind": "hard",
+          "x": 360,
+          "y": 160
+        },
+        {
+          "kind": "hard",
+          "x": 430,
+          "y": 160
+        },
+        {
+          "kind": "hardaaaaa",
+          "x": 500,
+          "y": 160
+        }
+      ]
+    },
+    {
+      "title": "3nd level",
+      "blocks": [
+        {
+          "kind": "basic",
+          "x": 10,
+          "y": 10
+        },
+        {
+          "kind": "basic",
+          "x": 80,
+          "y": 10
+        },
+        {
+          "kind": "basic",
+          "x": 150,
+          "y": 10
+        },
+        {
+          "kind": "basic",
+          "x": 220,
+          "y": 10
+        },
+        {
+          "kind": "basic",
+          "x": 290,
+          "y": 10
+        },
+        {
+          "kind": "basic",
+          "x": 360,
+          "y": 10
+        },
+        {
+          "kind": "basic",
+          "x": 430,
+          "y": 10
+        },
+        {
+          "kind": "basic",
+          "x": 500,
+          "y": 10
+        },
+        {
+          "kind": "advanced",
+          "x": 10,
+          "y": 60
+        },
+        {
+          "kind": "advanced",
+          "x": 80,
+          "y": 60
+        },
+        {
+          "kind": "advanced",
+          "x": 150,
+          "y": 60
+        },
+        {
+          "kind": "advanced",
+          "x": 220,
+          "y": 60
+        },
+        {
+          "kind": "advanced",
+          "x": 290,
+          "y": 60
+        },
+        {
+          "kind": "advanced",
+          "x": 360,
+          "y": 60
+        },
+        {
+          "kind": "advanced",
+          "x": 430,
+          "y": 60
+        },
+        {
+          "kind": "advanced",
+          "x": 500,
+          "y": 60
+        },
+        {
+          "kind": "hard",
+          "x": 10,
+          "y": 110
+        },
+        {
+          "kind": "hard",
+          "x": 80,
+          "y": 110
+        },
+        {
+          "kind": "hard",
+          "x": 150,
+          "y": 110
+        },
+        {
+          "kind": "hard",
+          "x": 220,
+          "y": 110
+        },
+        {
+          "kind": "hard",
+          "x": 290,
+          "y": 110
+        },
+        {
+          "kind": "hard",
+          "x": 360,
+          "y": 110
+        },
+        {
+          "kind": "hard",
+          "x": 430,
+          "y": 110
+        },
+        {
+          "kind": "hard-",
+          "x": 500,
+          "y": 110
+        },
+        {
+          "kind": "imposibble",
+          "x": 10,
+          "y": 160
+        },
+        {
+          "kind": "imposibble",
+          "x": 80,
+          "y": 160
+        },
+        {
+          "kind": "imposibble",
+          "x": 150,
+          "y": 160
+        },
+        {
+          "kind": "imposibble",
+          "x": 220,
+          "y": 160
+        },
+        {
+          "kind": "imposibble",
+          "x": 290,
+          "y": 160
+        },
+        {
+          "kind": "imposibble",
+          "x": 360,
+          "y": 160
+        },
+        {
+          "kind": "imposibble",
+          "x": 430,
+          "y": 160
+        },
+        {
+          "kind": "imposibble",
+          "x": 500,
+          "y": 160
+        }
+      ]
+    }
+  ]
+}
