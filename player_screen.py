@@ -5,11 +5,12 @@ from Laser import Laser
 from ball import Ball
 from bonus import Bonus
 from bonus_type import BonusType
+from heart import Heart
+from map_loader import Map_Loader
 from paddle import Paddle
 from random_utils import RandomUtils
-from settings import PADDLE_HIT, WIN, LIFE_LOSS, BONUS_CHANCE, MAP_TIME, MAX_FPS
+from settings import PADDLE_HIT, WIN, LIFE_LOSS, BONUS_CHANCE, MAP_TIME, MAX_FPS, START_LIVES, LASER_EFFECT
 from text_surface import TextSurface
-from map_loader import Map_Loader
 
 
 class PlayerScreen(object):
@@ -19,7 +20,8 @@ class PlayerScreen(object):
     """
     text_surface = TextSurface()
 
-    def __init__(self, subsurface, controls):
+    def __init__(self, info_surface, subsurface, controls):
+        self.info_surface = info_surface
         self.subsurface = subsurface
         self.map_loader = Map_Loader()
         self.map_loader.next_map()
@@ -27,23 +29,24 @@ class PlayerScreen(object):
         self.up_key, self.left_key, self.down_key, self.right_key = controls
         self.score = 0
         self.paddle = Paddle(subsurface.get_rect())
-        self.balls = [Ball(subsurface.get_rect(), None)]
+        self.balls = [Ball(subsurface.get_rect())]
         self.time_left = 0
         self.load_map(self.map_loader.get_blocks())
         self.bonuses = []
+        self.blocks = []
         self.laser = Laser(self.subsurface.get_rect().height - 20)
+        self.life = START_LIVES
+        self.heart = Heart()
 
     def load_map(self, blocks):
-        self.balls = [Ball(self.subsurface.get_rect(), None)]
+        self.balls = [Ball(self.subsurface.get_rect())]
         self.blocks = blocks
         self.bonuses = []
         self.time_left = MAP_TIME * MAX_FPS
         self.paddle = Paddle(self.subsurface.get_rect())
 
     def update(self):
-
         self.time_left -= 1
-
         for ball in self.balls:
             if self._check_collision_corners(ball, self.paddle):
                 ball.custom_angle = self.paddle.get_bounce_angle(ball.rect.centerx)
@@ -71,6 +74,9 @@ class PlayerScreen(object):
         self.balls = [ball for ball in self.balls if ball.active]
         if not self.balls:
             soundmixer.queueeffect(LIFE_LOSS)
+            self.life -= 1
+            if self.life:
+                self.balls = [Ball(self.subsurface.get_rect())]
         for b in self.bonuses:
             b.update()
         self.laser.update()
@@ -93,8 +99,13 @@ class PlayerScreen(object):
         self.subsurface.blit(self.paddle.image, self.paddle.rect)
         if self.laser.show:
             self.subsurface.blit(self.laser.image, (self.paddle.rect.centerx - 10, 0))
-        self.subsurface.blit(PlayerScreen.text_surface.get_text_surface('Score: {}'.format(self.score)), (0, 0))
-        self.subsurface.blit(PlayerScreen.text_surface.get_text_surface('Time left: {}'.format(round(self.time_left/MAX_FPS,1))), (200, 0))
+        self.info_surface.blit(PlayerScreen.text_surface.get_text_surface('Score: {}'.format(self.score)), (0, 0))
+        self.info_surface.blit(
+            PlayerScreen.text_surface.get_text_surface('Time left: {}'.format(round(self.time_left / MAX_FPS, 1))),
+            (200, 0))
+        self.info_surface.blit(self.heart.image, (self.subsurface.get_rect().width - 90, 0))
+        self.info_surface.blit(PlayerScreen.text_surface.get_text_surface('x{}'.format(self.life)),
+                               (self.subsurface.get_rect().width - 50, 1))
 
     def multiply_balls(self):
         upd_balls = []
@@ -110,14 +121,16 @@ class PlayerScreen(object):
         for a in areas:
             if ball.rect.colliderect(a.rect):
                 ball.tl = a.rect.collidepoint(ball.rect.topleft)
-                ball.tl = a.rect.collidepoint(ball.rect.topright)
-                ball.tl = a.rect.collidepoint(ball.rect.bottomleft)
-                ball.tl = a.rect.collidepoint(ball.rect.bottomright)
+                ball.tr = a.rect.collidepoint(ball.rect.topright)
+                ball.bl = a.rect.collidepoint(ball.rect.bottomleft)
+                ball.br = a.rect.collidepoint(ball.rect.bottomright)
                 return True
         return None
 
     def shoot_laser(self):
         if self.paddle.laser:
+            soundmixer.solochanneleffect(LASER_EFFECT)
+            self.laser.activate()
             self.paddle.laser -= 1
             for b in self.blocks:
                 if b.get_rect().left < self.paddle.rect.centerx < b.get_rect().right:
@@ -142,6 +155,7 @@ class PlayerScreen(object):
         self.bonuses = [b for b in self.bonuses if b.active]
 
     def apply_bonus(self, bonus_type):
+        soundmixer.solochanneleffect(bonus_type.value)
         if bonus_type == BonusType.BALL_SHRINK:
             for b in self.balls:
                 b.shrink()
@@ -166,7 +180,8 @@ class PlayerScreen(object):
             self.multiply_balls()
         elif bonus_type == BonusType.PADDLE_LASER:
             self.paddle.init_laser()
-            self.laser.activate()
         elif bonus_type == BonusType.BALL_SUPER:
             for b in self.balls:
                 b.super_ball()
+        elif bonus_type == BonusType.EXTRA_LIFE:
+            self.life += 1

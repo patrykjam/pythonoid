@@ -22,7 +22,7 @@ class Ball(pygame.sprite.Sprite):
     DEFAULT_BALL = None
     SUPER_BALL_IMG = None
 
-    def __init__(self, area, vector):
+    def __init__(self, area, vector=None):
         super().__init__()
         self.resize_state = self.speed_state = self.super_ball_time = 0
         self.image = self.rect = None

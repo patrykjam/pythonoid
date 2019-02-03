@@ -22,7 +22,7 @@ class Bonus(pygame.Surface):
         super().__init__((width, height))
         self.rect = Rect(0, 0, width, height)
         self.rect.center = block_rect.center
-        self.speed = 100 / MAX_FPS
+        self.speed = 200 / MAX_FPS
         self.active = True
         self.fill(pygame.Color('Tomato'))
         self.bonus_type = random.choice(list(BonusType))
