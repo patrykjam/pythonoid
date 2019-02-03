@@ -96,9 +96,9 @@ class PlayerScreen(object):
         for a in areas:
             if ball.rect.colliderect(a.rect):
                 ball.tl = a.rect.collidepoint(ball.rect.topleft)
-                ball.tl = a.rect.collidepoint(ball.rect.topright)
-                ball.tl = a.rect.collidepoint(ball.rect.bottomleft)
-                ball.tl = a.rect.collidepoint(ball.rect.bottomright)
+                ball.tr = a.rect.collidepoint(ball.rect.topright)
+                ball.bl = a.rect.collidepoint(ball.rect.bottomleft)
+                ball.br = a.rect.collidepoint(ball.rect.bottomright)
                 return True
         return None
 
