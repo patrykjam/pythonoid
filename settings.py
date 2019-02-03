@@ -4,6 +4,7 @@ Settings constants
 from pygame.constants import K_a, K_d, K_LEFT, K_RIGHT, K_DOWN, K_UP, K_s, K_w
 
 BASE_SPEED = 600
+MAP_TIME = 180
 PLAYERS = 1
 MAX_FPS = 60
 HEIGHT_RES = 700
@@ -14,6 +15,8 @@ START_LIVES = 3
 IMAGES_DIR = "images/"
 SOUNDS_DIR = 'sounds/'
 FONTS_DIR = 'fonts/'
+MAPS_DIR = 'maps/'
+MAP_PATH = MAPS_DIR + "mapy.json"
 FONT_AZONIX = FONTS_DIR + "Azonix.otf"
 PADDLE_IMG = IMAGES_DIR + "paddle.png"
 BALL_IMG = IMAGES_DIR + "ball.png"
