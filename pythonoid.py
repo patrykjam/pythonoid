@@ -59,15 +59,18 @@ def end_screen(players):
     print(ranking)
     ranking.sort(key=lambda tup: -tup[0])
 
-    while 1:
+    end = True
+    while end:
         surface.blit(text_surface_title.get_text_surface('PYTHONOID'), (0, 0))
         surface.blit(text_surface_text.get_text_surface('Ranking:'), (0, height / 4))
         shift = 40
 
-        for (player, score) in ranking:
+        for player, score in ranking:
             surface.blit(text_surface_text.get_text_surface("Player {}, score: {}.".format(player, score)),
                          (0, height / 4 + shift))
             shift += 40
+        surface.blit(text_surface_text.get_text_surface("Press R to restart or ESC to quit"),
+                     (0, height / 4 + shift * 3))
 
         screen.blit(surface, (0, 0))
         pygame.display.flip()
@@ -78,6 +81,8 @@ def end_screen(players):
             elif event.type == KEYDOWN:
                 if event.key == K_ESCAPE:
                     pygame.quit()
+                if event.key == K_r:
+                    end = False
 
 
 def pythonoid():
@@ -154,5 +159,6 @@ def pythonoid():
 if __name__ == '__main__':
     pygame.init()
     pygame.display.set_caption('Pythonoid')
-    start_screen()
-    pythonoid()
+    while 1:
+        start_screen()
+        pythonoid()
