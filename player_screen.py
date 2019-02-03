@@ -8,7 +8,7 @@ from bonus_type import BonusType
 from heart import Heart
 from paddle import Paddle
 from random_utils import RandomUtils
-from settings import PADDLE_HIT, WIN, LIFE_LOSS, BONUS_CHANCE, START_LIVES
+from settings import PADDLE_HIT, WIN, LIFE_LOSS, BONUS_CHANCE, START_LIVES, LASER_EFFECT
 from text_surface import TextSurface
 
 
@@ -109,6 +109,8 @@ class PlayerScreen(object):
 
     def shoot_laser(self):
         if self.paddle.laser:
+            soundmixer.solochanneleffect(LASER_EFFECT)
+            self.laser.activate()
             self.paddle.laser -= 1
             for b in self.blocks:
                 if b.get_rect().left < self.paddle.rect.centerx < b.get_rect().right:
@@ -133,6 +135,7 @@ class PlayerScreen(object):
         self.bonuses = [b for b in self.bonuses if b.active]
 
     def apply_bonus(self, bonus_type):
+        soundmixer.solochanneleffect(bonus_type.value)
         if bonus_type == BonusType.BALL_SHRINK:
             for b in self.balls:
                 b.shrink()

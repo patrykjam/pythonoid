@@ -53,7 +53,7 @@ class Paddle(pygame.sprite.Sprite):
         idx = ball_x - self.rect.left
         if idx < 0:
             idx = 0
-        if idx > self.rect.width:
+        if idx >= self.rect.width:
             idx = self.rect.width - 1
         return self.bounce_angle_array[idx]
 
