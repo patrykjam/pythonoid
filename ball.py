@@ -32,7 +32,7 @@ class Ball(pygame.sprite.Sprite):
             self.vector = vector
         else:
             self.vector = random.uniform(1.25, math.pi - 1.25), BASE_SPEED / MAX_FPS
-        self.custom_angle = self.collided = self.hit = self.tl = self.tr = self.bl = self.br = False
+        self.custom_angle = self.col_paddle = self.col_wall = self.hit = self.tl = self.tr = self.bl = self.br = False
         self.reinit()
 
     def reinit(self):
@@ -59,32 +59,35 @@ class Ball(pygame.sprite.Sprite):
             return
 
         if not self.area.contains(newpos):
-            tl = not self.area.collidepoint(newpos.topleft)
-            tr = not self.area.collidepoint(newpos.topright)
-            bl = not self.area.collidepoint(newpos.bottomleft)
-            br = not self.area.collidepoint(newpos.bottomright)
+            if not self.col_wall:
+                self.col_wall = True
+                tl = not self.area.collidepoint(newpos.topleft)
+                tr = not self.area.collidepoint(newpos.topright)
+                bl = not self.area.collidepoint(newpos.bottomleft)
+                br = not self.area.collidepoint(newpos.bottomright)
 
-            if br and bl:
-                self.active = False
-                soundmixer.solochanneleffect(BALL_LOSS)
-                return
-            angle *= -1
-            if tr and br:
-                angle -= math.pi
-            elif tl and bl:
-                angle += math.pi
-            soundmixer.solochanneleffect(PADDLE_HIT)
+                if br and bl:
+                    self.active = False
+                    soundmixer.solochanneleffect(BALL_LOSS)
+                    return
+                angle *= -1
+                if tr and br:
+                    angle -= math.pi
+                elif tl and bl:
+                    angle += math.pi
+                soundmixer.solochanneleffect(PADDLE_HIT)
         else:
-            if self.hit and not self.collided:
+            self.col_wall = False
+            if self.hit and not self.col_paddle:
                 angle *= -1
                 soundmixer.solochanneleffect(PADDLE_HIT)
                 if self.tr and self.br:
                     angle -= math.pi
                 elif self.tl and self.bl:
                     angle += math.pi
-                self.collided = True
-            elif not self.hit and self.collided:
-                self.collided = False
+                self.col_paddle = True
+            elif not self.hit and self.col_paddle:
+                self.col_paddle = False
         self.vector = (angle, z)
 
     def calcnewpos(self, rect, vector):
