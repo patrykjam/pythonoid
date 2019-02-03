@@ -6,7 +6,7 @@ from surface_utils import SurfaceUtils
 
 
 class Heart(pygame.sprite.Sprite):
-    SIZE = 35
+    SIZE = 30
 
     def __init__(self):
         super().__init__()

@@ -20,7 +20,8 @@ class PlayerScreen(object):
     """
     text_surface = TextSurface()
 
-    def __init__(self, subsurface, controls):
+    def __init__(self, info_surface, subsurface, controls):
+        self.info_surface = info_surface
         self.subsurface = subsurface
         self.map_loader = Map_Loader()
         self.map_loader.next_map()
@@ -98,13 +99,13 @@ class PlayerScreen(object):
         self.subsurface.blit(self.paddle.image, self.paddle.rect)
         if self.laser.show:
             self.subsurface.blit(self.laser.image, (self.paddle.rect.centerx - 10, 0))
-        self.subsurface.blit(PlayerScreen.text_surface.get_text_surface('Score: {}'.format(self.score)), (0, 0))
-        self.subsurface.blit(
+        self.info_surface.blit(PlayerScreen.text_surface.get_text_surface('Score: {}'.format(self.score)), (0, 0))
+        self.info_surface.blit(
             PlayerScreen.text_surface.get_text_surface('Time left: {}'.format(round(self.time_left / MAX_FPS, 1))),
             (200, 0))
-        self.subsurface.blit(self.heart.image, (self.subsurface.get_rect().width - 100, 5))
-        self.subsurface.blit(PlayerScreen.text_surface.get_text_surface('x{}'.format(self.life)),
-                             (self.subsurface.get_rect().width - 60, 10))
+        self.info_surface.blit(self.heart.image, (self.subsurface.get_rect().width - 90, 0))
+        self.info_surface.blit(PlayerScreen.text_surface.get_text_surface('x{}'.format(self.life)),
+                               (self.subsurface.get_rect().width - 50, 1))
 
     def multiply_balls(self):
         upd_balls = []

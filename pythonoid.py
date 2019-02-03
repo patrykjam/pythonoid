@@ -5,7 +5,6 @@ from pygame.locals import *
 
 import settings
 import soundmixer as soundmixer
-from map_loader import Map_Loader
 from player_screen import PlayerScreen
 from settings import WIDTH_RES, HEIGHT_RES, MAX_FPS, PLAYER_CONTROLS, BACKGROUND_COLOR
 from text_surface import TextSurface
@@ -89,7 +88,6 @@ def end_screen(players):
 def pythonoid():
     PLAYERS = settings.PLAYERS
     clock = pygame.time.Clock()
-    text_surface = TextSurface()
     soundmixer.init_mixer()
     width, height = WIDTH_RES * PLAYERS, HEIGHT_RES
     screen_res = (width, height)
@@ -98,7 +96,8 @@ def pythonoid():
     canvas = pygame.Surface(screen_res)
     player_screens = \
         [PlayerScreen(
-            canvas.subsurface(pygame.Rect(i * width / PLAYERS, 0, width / PLAYERS, height)),
+            pygame.Surface((width / PLAYERS, settings.INFO_BAR_HEIGHT)),
+            canvas.subsurface(pygame.Rect(i * width / PLAYERS, 0, width / PLAYERS, height - settings.INFO_BAR_HEIGHT)),
             controls)
             for i, controls in zip(range(PLAYERS), PLAYER_CONTROLS)]
 
@@ -128,12 +127,15 @@ def pythonoid():
                         p.paddle.stop()
 
         for i, p in enumerate(player_screens):
-            screen.blit(p.subsurface, (i * width / PLAYERS, 0))
+            screen.blit(p.info_surface, (i * width / PLAYERS, 0))
+            screen.blit(p.subsurface, (i * width / PLAYERS, settings.INFO_BAR_HEIGHT))
+            p.info_surface.fill(pygame.Color(BACKGROUND_COLOR))
             p.subsurface.fill(pygame.Color(BACKGROUND_COLOR))
             if p.active:
                 p.update()
             p.blit()
             pygame.draw.line(p.subsurface, (0, 0, 0), (width / PLAYERS, 0), (width / PLAYERS, height), 5)
+            pygame.draw.line(p.subsurface, (0, 0, 0), (width / PLAYERS, 0), (0, 0), 5)
         pygame.display.flip()
 
         if all([not p.active for p in player_screens]):
