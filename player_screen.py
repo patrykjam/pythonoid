@@ -33,7 +33,6 @@ class PlayerScreen(object):
         self.time_left = 0
         self.load_map(self.map_loader.get_blocks())
         self.bonuses = []
-        self.blocks = []
         self.laser = Laser(self.subsurface.get_rect().height - 20)
         self.life = START_LIVES
         self.heart = Heart()
