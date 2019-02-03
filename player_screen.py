@@ -54,7 +54,7 @@ class PlayerScreen(object):
             ball.hit = self._check_collision_corners(ball, *self.blocks)
             if ball.hit:
                 for block in self.blocks:
-                    if ball.rect.colliderect(block.rect) and not ball.collided:
+                    if ball.rect.colliderect(block.rect) and not ball.col_paddle:
                         if ball.is_super_ball():
                             self.score += 10 * block.life
                             block.life = 0
@@ -74,7 +74,7 @@ class PlayerScreen(object):
         if not self.balls:
             soundmixer.queueeffect(LIFE_LOSS)
             self.life -= 1
-            if self.life:
+            if self.life > -1:
                 self.balls = [Ball(self.subsurface.get_rect())]
         for b in self.bonuses:
             b.update()
